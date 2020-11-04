@@ -1,0 +1,1333 @@
+// ~->[DNET-1]->~
+
+// File created by someone at KCITKingCounty using Netica 6.05 on Nov 04, 2020 at 23:14:36 UTC.
+
+bnet cyano_20201016_chla_alpha_post {
+AutoCompile = TRUE;
+autoupdate = TRUE;
+whenchanged = 1604443570;
+
+visual V1 {
+	defdispform = BELIEFBARS;
+	nodelabeling = TITLE;
+	NodeMaxNumEntries = 50;
+	nodefont = font {shape= "Arial"; size= 9;};
+	linkfont = font {shape= "Arial"; size= 9;};
+	ShowLinkStrengths = 1;
+	windowposn = (52, 52, 1165, 707);
+	resolution = 72;
+	drawingbounds = (2686, 1344);
+	showpagebreaks = FALSE;
+	usegrid = TRUE;
+	gridspace = (6, 6);
+	NodeSet Node {BuiltIn = 1; Color = 0x00e1e1e1;};
+	NodeSet Nature {BuiltIn = 1; Color = 0x00f8eed2;};
+	NodeSet Deterministic {BuiltIn = 1; Color = 0x00d3caa6;};
+	NodeSet Finding {BuiltIn = 1; Color = 0x00c8c8c8;};
+	NodeSet Constant {BuiltIn = 1; Color = 0x00ffffff;};
+	NodeSet ConstantValue {BuiltIn = 1; Color = 0x00ffffb4;};
+	NodeSet Utility {BuiltIn = 1; Color = 0x00ffbdbd;};
+	NodeSet Decision {BuiltIn = 1; Color = 0x00dee8ff;};
+	NodeSet Documentation {BuiltIn = 1; Color = 0x00f0fafa;};
+	NodeSet Title {BuiltIn = 1; Color = 0x00ffffff;};
+	NodeSet Cyanos {Color = 0x0098f8f5;};
+	NodeSet NonAdjustableEnviroFac {Color = 0x0095fbb9;};
+	NodeSet Nutrients {Color = 0x00c5b4dc;};
+	NodeSet Geomorphology {Color = 0x00b9ab46;};
+	NodeSet target {Disabled = 1; Color = 0x00c8c8c8;};
+	PrinterSetting A {
+		margins = (1270, 1270, 1270, 1270);
+		};
+	};
+
+node Wind {
+	discrete = TRUE;
+	states = (Lakeward, Still, Beachward);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	probs = 
+		// Lakeward     Still        Beachward    
+		  (0.3606075,   0.3232143,   0.3161782);
+	numcases = 130;
+	title = "Wind Conditions";
+	whenchanged = 1603742029;
+	belief = (0.3606075, 0.3232143, 0.3161782);
+	visual V1 {
+		center = (1056, 690);
+		height = 16;
+		};
+	};
+
+node FloatMacBeach {
+	discrete = FALSE;
+	levels = (0, 0, 20, 50);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	probs = 
+		// 0            0 to 20      20 to 50     
+		  (0.31995,     0.3178119,   0.3622382);
+	numcases = 130;
+	title = "Floating Macrophyte Coverage at Beach";
+	whenchanged = 1603742029;
+	belief = (0.31995, 0.3178119, 0.3622381);
+	visual V1 {
+		center = (1356, 576);
+		height = 17;
+		};
+	};
+
+node A {
+	discrete = TRUE;
+	states = (Supportive, Neutral, Unsupportive);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (FloatMacBeach, Wind);
+	probs = 
+		// Supportive   Neutral      Unsupportive  // FloatMacBeach Wind      
+		  (0.09,        0.28,        0.63,         // 0             Lakeward  
+		   0.2,         0.6,         0.2,          // 0             Still     
+		   0.65,        0.25,        0.1,          // 0             Beachward 
+		   0.15,        0.25,        0.6,          // 0 to 20       Lakeward  
+		   0.25,        0.66,        0.09,         // 0 to 20       Still     
+		   0.7,         0.15,        0.15,         // 0 to 20       Beachward 
+		   0.25,        0.25,        0.5,          // 20 to 50      Lakeward  
+		   0.4,         0.5,         0.1,          // 20 to 50      Still     
+		   0.72,        0.17,        0.11);        // 20 to 50      Beachward ;
+	numcases = 1;
+	title = "Accumulation Conditions";
+	whenchanged = 1603746892;
+	belief = (0.3719835, 0.3418305, 0.2861861);
+	visual V1 {
+		center = (1056, 576);
+		height = 15;
+		};
+	};
+
+node TPG {
+	discrete = TRUE;
+	states = (Present, Absent);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	probs = 
+		// Present      Absent       
+		  (0.2,         0.8);
+	title = "Toxin-Producing Genotype";
+	whenchanged = 1603741339;
+	belief = (0.2, 0.8);
+	visual V1 {
+		center = (414, 714);
+		height = 26;
+		};
+	};
+
+node PreTreatTP {
+	discrete = FALSE;
+	levels = (0, 12, 24, 50, 96, 120);
+	kind = NATURE;
+	parents = ();
+	title = "Pre-treatment TP";
+	whenchanged = 1604443450;
+	belief = (0.2, 0.2, 0.2, 0.2, 0.2);
+	visual V1 {
+		center = (174, 324);
+		height = 10;
+		};
+	};
+
+node Int_Load_Frac {
+	discrete = FALSE;
+	levels = (0, 25, 50, 75, 100);
+	kind = NATURE;
+	parents = ();
+	title = "Pre-Treatment Internal Load Fraction";
+	whenchanged = 1604443446;
+	belief = (0.25, 0.25, 0.25, 0.25);
+	visual V1 {
+		center = (138, 450);
+		height = 22;
+		};
+	};
+
+node Load_Reduction {
+	discrete = TRUE;
+	levels = (0, 20, 40, 60, 80);
+	kind = NATURE;
+	parents = ();
+	title = "External TP Load Reduction";
+	whenchanged = 1604443570;
+	belief = (0.2, 0.2, 0.2, 0.2, 0.2);
+	visual V1 {
+		center = (360, 252);
+		height = 23;
+		};
+	};
+
+node K {
+	discrete = TRUE;
+	states = (First_Five_Years, Second_Five_Years);
+	kind = NATURE;
+	parents = ();
+	title = "Timeline";
+	whenchanged = 1604443570;
+	belief = (0.5, 0.5);
+	visual V1 {
+		center = (408, 540);
+		height = 25;
+		};
+	};
+
+node Lake_TP {
+	discrete = FALSE;
+	levels = (0, 12, 24, 50, 96, INFINITY);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (PreTreatTP, Int_Load_Frac, Load_Reduction, K);
+	probs = 
+		// 0 to 12      12 to 24     24 to 50     50 to 96     >= 96         // PreTreatTP Int_Load_Frac Load_Reduction K                
+		  (1,           0,           0,           0,           0,            // 0 to 12    0 to 25       0              First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    0 to 25       0              Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    0 to 25       20             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    0 to 25       20             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    0 to 25       40             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    0 to 25       40             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    0 to 25       60             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    0 to 25       60             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    0 to 25       80             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    0 to 25       80             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    25 to 50      0              First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    25 to 50      0              Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    25 to 50      20             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    25 to 50      20             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    25 to 50      40             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    25 to 50      40             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    25 to 50      60             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    25 to 50      60             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    25 to 50      80             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    25 to 50      80             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    50 to 75      0              First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    50 to 75      0              Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    50 to 75      20             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    50 to 75      20             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    50 to 75      40             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    50 to 75      40             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    50 to 75      60             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    50 to 75      60             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    50 to 75      80             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    50 to 75      80             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    75 to 100     0              First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    75 to 100     0              Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    75 to 100     20             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    75 to 100     20             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    75 to 100     40             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    75 to 100     40             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    75 to 100     60             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    75 to 100     60             Second Five Year 
+		   1,           0,           0,           0,           0,            // 0 to 12    75 to 100     80             First Five Years 
+		   1,           0,           0,           0,           0,            // 0 to 12    75 to 100     80             Second Five Year 
+		   0.01,        0.86,        0.1,         0.02,        0.01,         // 12 to 24   0 to 25       0              First Five Years 
+		   0.01,        0.86,        0.1,         0.02,        0.01,         // 12 to 24   0 to 25       0              Second Five Year 
+		   0.1,         0.84,        0.05,        0.01,        0,            // 12 to 24   0 to 25       20             First Five Years 
+		   0.12,        0.85,        0.03,        0,           0,            // 12 to 24   0 to 25       20             Second Five Year 
+		   0.15,        0.83,        0.02,        0,           0,            // 12 to 24   0 to 25       40             First Five Years 
+		   0.17,        0.83,        0,           0,           0,            // 12 to 24   0 to 25       40             Second Five Year 
+		   0.2,         0.8,         0,           0,           0,            // 12 to 24   0 to 25       60             First Five Years 
+		   0.2,         0.8,         0,           0,           0,            // 12 to 24   0 to 25       60             Second Five Year 
+		   0.25,        0.75,        0,           0,           0,            // 12 to 24   0 to 25       80             First Five Years 
+		   0.25,        0.75,        0,           0,           0,            // 12 to 24   0 to 25       80             Second Five Year 
+		   0.01,        0.86,        0.1,         0.02,        0.01,         // 12 to 24   25 to 50      0              First Five Years 
+		   0.01,        0.86,        0.1,         0.02,        0.01,         // 12 to 24   25 to 50      0              Second Five Year 
+		   0.07,        0.83,        0.095,       0.005,       0,            // 12 to 24   25 to 50      20             First Five Years 
+		   0.08,        0.85,        0.06,        0.01,        0,            // 12 to 24   25 to 50      20             Second Five Year 
+		   0.12,        0.83,        0.05,        0,           0,            // 12 to 24   25 to 50      40             First Five Years 
+		   0.13,        0.85,        0.02,        0,           0,            // 12 to 24   25 to 50      40             Second Five Year 
+		   0.15,        0.82,        0.03,        0,           0,            // 12 to 24   25 to 50      60             First Five Years 
+		   0.16,        0.82,        0.02,        0,           0,            // 12 to 24   25 to 50      60             Second Five Year 
+		   0.22,        0.77,        0.01,        0,           0,            // 12 to 24   25 to 50      80             First Five Years 
+		   0.23,        0.77,        0,           0,           0,            // 12 to 24   25 to 50      80             Second Five Year 
+		   0.01,        0.86,        0.1,         0.02,        0.01,         // 12 to 24   50 to 75      0              First Five Years 
+		   0.01,        0.86,        0.1,         0.02,        0.01,         // 12 to 24   50 to 75      0              Second Five Year 
+		   0.05,        0.83,        0.098,       0.012,       0.01,         // 12 to 24   50 to 75      20             First Five Years 
+		   0.06,        0.85,        0.064,       0.016,       0.01,         // 12 to 24   50 to 75      20             Second Five Year 
+		   0.1,         0.875,       0.025,       0,           0,            // 12 to 24   50 to 75      40             First Five Years 
+		   0.12,        0.87,        0.01,        0,           0,            // 12 to 24   50 to 75      40             Second Five Year 
+		   0.15,        0.8,         0.05,        0,           0,            // 12 to 24   50 to 75      60             First Five Years 
+		   0.16,        0.8,         0.04,        0,           0,            // 12 to 24   50 to 75      60             Second Five Year 
+		   0.18,        0.8,         0.02,        0,           0,            // 12 to 24   50 to 75      80             First Five Years 
+		   0.2,         0.79,        0.01,        0,           0,            // 12 to 24   50 to 75      80             Second Five Year 
+		   0.01,        0.86,        0.1,         0.02,        0.01,         // 12 to 24   75 to 100     0              First Five Years 
+		   0.01,        0.86,        0.1,         0.02,        0.01,         // 12 to 24   75 to 100     0              Second Five Year 
+		   0.01,        0.865,       0.1,         0.015,       0.01,         // 12 to 24   75 to 100     20             First Five Years 
+		   0.01,        0.89,        0.07,        0.02,        0.01,         // 12 to 24   75 to 100     20             Second Five Year 
+		   0.025,       0.925,       0.05,        0,           0,            // 12 to 24   75 to 100     40             First Five Years 
+		   0.04,        0.93,        0.025,       0.005,       0,            // 12 to 24   75 to 100     40             Second Five Year 
+		   0.088,       0.9,         0.01,        0.002,       0,            // 12 to 24   75 to 100     60             First Five Years 
+		   0.1,         0.9,         0,           0,           0,            // 12 to 24   75 to 100     60             Second Five Year 
+		   0.11,        0.84,        0.049,       0.001,       0,            // 12 to 24   75 to 100     80             First Five Years 
+		   0.12,        0.88,        0,           0,           0,            // 12 to 24   75 to 100     80             Second Five Year 
+		   0,           0.085,       0.83,        0.075,       0.01,         // 24 to 50   0 to 25       0              First Five Years 
+		   0,           0.085,       0.83,        0.075,       0.01,         // 24 to 50   0 to 25       0              Second Five Year 
+		   0.002,       0.088,       0.83,        0.072,       0.008,        // 24 to 50   0 to 25       20             First Five Years 
+		   0.01,        0.105,       0.8,         0.075,       0.01,         // 24 to 50   0 to 25       20             Second Five Year 
+		   0.004,       0.25,        0.67,        0.07,        0.006,        // 24 to 50   0 to 25       40             First Five Years 
+		   0.01,        0.31,        0.6,         0.072,       0.008,        // 24 to 50   0 to 25       40             Second Five Year 
+		   0.005,       0.545,       0.4,         0.05,        0,            // 24 to 50   0 to 25       60             First Five Years 
+		   0.015,       0.585,       0.35,        0.048,       0.002,        // 24 to 50   0 to 25       60             Second Five Year 
+		   0.01,        0.8,         0.15,        0.04,        0,            // 24 to 50   0 to 25       80             First Five Years 
+		   0.017,       0.853,       0.099,       0.03,        0.001,        // 24 to 50   0 to 25       80             Second Five Year 
+		   0,           0.085,       0.83,        0.075,       0.01,         // 24 to 50   25 to 50      0              First Five Years 
+		   0,           0.085,       0.83,        0.075,       0.01,         // 24 to 50   25 to 50      0              Second Five Year 
+		   0,           0.2,         0.75,        0.04,        0.01,         // 24 to 50   25 to 50      20             First Five Years 
+		   0,           0.265,       0.7,         0.03,        0.005,        // 24 to 50   25 to 50      20             Second Five Year 
+		   0,           0.32,        0.65,        0.03,        0,            // 24 to 50   25 to 50      40             First Five Years 
+		   0.005,       0.35,        0.62,        0.025,       0,            // 24 to 50   25 to 50      40             Second Five Year 
+		   0.005,       0.455,       0.52,        0.02,        0,            // 24 to 50   25 to 50      60             First Five Years 
+		   0.01,        0.48,        0.5,         0.01,        0,            // 24 to 50   25 to 50      60             Second Five Year 
+		   0.01,        0.5,         0.48,        0.01,        0,            // 24 to 50   25 to 50      80             First Five Years 
+		   0.015,       0.55,        0.43,        0.005,       0,            // 24 to 50   25 to 50      80             Second Five Year 
+		   0,           0.085,       0.83,        0.075,       0.01,         // 24 to 50   50 to 75      0              First Five Years 
+		   0,           0.085,       0.83,        0.075,       0.01,         // 24 to 50   50 to 75      0              Second Five Year 
+		   0,           0.08,        0.85,        0.06,        0.01,         // 24 to 50   50 to 75      20             First Five Years 
+		   0,           0.07,        0.88,        0.045,       0.005,        // 24 to 50   50 to 75      20             Second Five Year 
+		   0,           0.075,       0.875,       0.05,        0,            // 24 to 50   50 to 75      40             First Five Years 
+		   0.002,       0.148,       0.82,        0.03,        0,            // 24 to 50   50 to 75      40             Second Five Year 
+		   0,           0.2,         0.75,        0.05,        0,            // 24 to 50   50 to 75      60             First Five Years 
+		   0.005,       0.25,        0.725,       0.02,        0,            // 24 to 50   50 to 75      60             Second Five Year 
+		   0.01,        0.28,        0.7,         0.01,        0,            // 24 to 50   50 to 75      80             First Five Years 
+		   0.015,       0.33,        0.65,        0.005,       0,            // 24 to 50   50 to 75      80             Second Five Year 
+		   0,           0.085,       0.83,        0.075,       0.01,         // 24 to 50   75 to 100     0              First Five Years 
+		   0,           0.085,       0.83,        0.075,       0.01,         // 24 to 50   75 to 100     0              Second Five Year 
+		   0,           0.02,        0.9,         0.065,       0.015,        // 24 to 50   75 to 100     20             First Five Years 
+		   0,           0.03,        0.91,        0.055,       0.005,        // 24 to 50   75 to 100     20             Second Five Year 
+		   0,           0.025,       0.925,       0.049,       0.001,        // 24 to 50   75 to 100     40             First Five Years 
+		   0.01,        0.05,        0.92,        0.02,        0,            // 24 to 50   75 to 100     40             Second Five Year 
+		   0.02,        0.124,       0.85,        0.005,       0.001,        // 24 to 50   75 to 100     60             First Five Years 
+		   0.03,        0.17,        0.798,       0.002,       0,            // 24 to 50   75 to 100     60             Second Five Year 
+		   0.03,        0.165,       0.8,         0.005,       0,            // 24 to 50   75 to 100     80             First Five Years 
+		   0.04,        0.2,         0.76,        0,           0,            // 24 to 50   75 to 100     80             Second Five Year 
+		   0,           0,           0.025,       0.95,        0.025,        // 50 to 96   0 to 25       0              First Five Years 
+		   0,           0,           0.025,       0.95,        0.025,        // 50 to 96   0 to 25       0              Second Five Year 
+		   0,           0,           0.135,       0.85,        0.015,        // 50 to 96   0 to 25       20             First Five Years 
+		   0,           0.08,        0.16,        0.75,        0.01,         // 50 to 96   0 to 25       20             Second Five Year 
+		   0,           0.01,        0.33,        0.65,        0.01,         // 50 to 96   0 to 25       40             First Five Years 
+		   0,           0.1,         0.395,       0.5,         0.005,        // 50 to 96   0 to 25       40             Second Five Year 
+		   0.01,        0.1,         0.49,        0.4,         0,            // 50 to 96   0 to 25       60             First Five Years 
+		   0.04,        0.15,        0.56,        0.25,        0,            // 50 to 96   0 to 25       60             Second Five Year 
+		   0.03,        0.15,        0.5,         0.32,        0,            // 50 to 96   0 to 25       80             First Five Years 
+		   0.05,        0.2,         0.65,        0.1,         0,            // 50 to 96   0 to 25       80             Second Five Year 
+		   0,           0,           0.025,       0.95,        0.025,        // 50 to 96   25 to 50      0              First Five Years 
+		   0,           0,           0.025,       0.95,        0.025,        // 50 to 96   25 to 50      0              Second Five Year 
+		   0,           0.03,        0.1,         0.85,        0.02,         // 50 to 96   25 to 50      20             First Five Years 
+		   0,           0.06,        0.18,        0.75,        0.01,         // 50 to 96   25 to 50      20             Second Five Year 
+		   0,           0.05,        0.19,        0.75,        0.01,         // 50 to 96   25 to 50      40             First Five Years 
+		   0,           0.08,        0.235,       0.68,        0.005,        // 50 to 96   25 to 50      40             Second Five Year 
+		   0,           0.07,        0.27,        0.66,        0,            // 50 to 96   25 to 50      60             First Five Years 
+		   0.002,       0.13,        0.34,        0.526,       0.002,        // 50 to 96   25 to 50      60             Second Five Year 
+		   0,           0.09,        0.36,        0.55,        0,            // 50 to 96   25 to 50      80             First Five Years 
+		   0.009,       0.15,        0.45,        0.39,        0.001,        // 50 to 96   25 to 50      80             Second Five Year 
+		   0,           0,           0.025,       0.95,        0.025,        // 50 to 96   50 to 75      0              First Five Years 
+		   0,           0,           0.025,       0.95,        0.025,        // 50 to 96   50 to 75      0              Second Five Year 
+		   0,           0,           0.05,        0.94,        0.01,         // 50 to 96   50 to 75      20             First Five Years 
+		   0,           0,           0.07,        0.905,       0.025,        // 50 to 96   50 to 75      20             Second Five Year 
+		   0,           0.02,        0.1,         0.873,       0.007,        // 50 to 96   50 to 75      40             First Five Years 
+		   0,           0.04,        0.15,        0.8,         0.01,         // 50 to 96   50 to 75      40             Second Five Year 
+		   0,           0.04,        0.23,        0.725,       0.005,        // 50 to 96   50 to 75      60             First Five Years 
+		   0,           0.08,        0.29,        0.62,        0.01,         // 50 to 96   50 to 75      60             Second Five Year 
+		   0,           0.05,        0.24,        0.705,       0.005,        // 50 to 96   50 to 75      80             First Five Years 
+		   0,           0.1,         0.29,        0.6,         0.01,         // 50 to 96   50 to 75      80             Second Five Year 
+		   0,           0,           0.025,       0.95,        0.025,        // 50 to 96   75 to 100     0              First Five Years 
+		   0,           0,           0.025,       0.95,        0.025,        // 50 to 96   75 to 100     0              Second Five Year 
+		   0,           0,           0.01,        0.97,        0.02,         // 50 to 96   75 to 100     20             First Five Years 
+		   0,           0,           0.04,        0.935,       0.025,        // 50 to 96   75 to 100     20             Second Five Year 
+		   0,           0.01,        0.05,        0.925,       0.015,        // 50 to 96   75 to 100     40             First Five Years 
+		   0,           0.04,        0.08,        0.86,        0.02,         // 50 to 96   75 to 100     40             Second Five Year 
+		   0,           0.02,        0.125,       0.85,        0.005,        // 50 to 96   75 to 100     60             First Five Years 
+		   0,           0.05,        0.14,        0.8,         0.01,         // 50 to 96   75 to 100     60             Second Five Year 
+		   0,           0.03,        0.165,       0.8,         0.005,        // 50 to 96   75 to 100     80             First Five Years 
+		   0,           0.05,        0.24,        0.7,         0.01,         // 50 to 96   75 to 100     80             Second Five Year 
+		   0,           0,           0,           0.025,       0.975,        // 96 to 120  0 to 25       0              First Five Years 
+		   0,           0,           0,           0.025,       0.975,        // 96 to 120  0 to 25       0              Second Five Year 
+		   0,           0,           0.03,        0.12,        0.85,         // 96 to 120  0 to 25       20             First Five Years 
+		   0,           0,           0.05,        0.15,        0.8,          // 96 to 120  0 to 25       20             Second Five Year 
+		   0,           0.05,        0.1,         0.3,         0.55,         // 96 to 120  0 to 25       40             First Five Years 
+		   0.003,       0.097,       0.2,         0.2,         0.5,          // 96 to 120  0 to 25       40             Second Five Year 
+		   0.001,       0.229,       0.28,        0.34,        0.15,         // 96 to 120  0 to 25       60             First Five Years 
+		   0.005,       0.25,        0.39,        0.255,       0.1,          // 96 to 120  0 to 25       60             Second Five Year 
+		   0.002,       0.27,        0.31,        0.296,       0.122,        // 96 to 120  0 to 25       80             First Five Years 
+		   0.006,       0.3,         0.41,        0.216,       0.068,        // 96 to 120  0 to 25       80             Second Five Year 
+		   0,           0,           0,           0.025,       0.975,        // 96 to 120  25 to 50      0              First Five Years 
+		   0,           0,           0,           0.025,       0.975,        // 96 to 120  25 to 50      0              Second Five Year 
+		   0,           0,           0.01,        0.09,        0.9,          // 96 to 120  25 to 50      20             First Five Years 
+		   0,           0,           0.015,       0.135,       0.85,         // 96 to 120  25 to 50      20             Second Five Year 
+		   0,           0.02,        0.05,        0.18,        0.75,         // 96 to 120  25 to 50      40             First Five Years 
+		   0,           0.04,        0.06,        0.2,         0.7,          // 96 to 120  25 to 50      40             Second Five Year 
+		   0,           0.001,       0.05,        0.349,       0.6,          // 96 to 120  25 to 50      60             First Five Years 
+		   0.002,       0.003,       0.145,       0.35,        0.5,          // 96 to 120  25 to 50      60             Second Five Year 
+		   0.001,       0.099,       0.2,         0.4,         0.3,          // 96 to 120  25 to 50      80             First Five Years 
+		   0.004,       0.146,       0.3,         0.35,        0.2,          // 96 to 120  25 to 50      80             Second Five Year 
+		   0,           0,           0,           0.025,       0.975,        // 96 to 120  50 to 75      0              First Five Years 
+		   0,           0,           0,           0.025,       0.975,        // 96 to 120  50 to 75      0              Second Five Year 
+		   0,           0,           0.005,       0.045,       0.95,         // 96 to 120  50 to 75      20             First Five Years 
+		   0,           0.001,       0.019,       0.08,        0.9,          // 96 to 120  50 to 75      20             Second Five Year 
+		   0,           0.001,       0.01,        0.089,       0.9,          // 96 to 120  50 to 75      40             First Five Years 
+		   0,           0.002,       0.03,        0.118,       0.85,         // 96 to 120  50 to 75      40             Second Five Year 
+		   0,           0.001,       0.015,       0.184,       0.8,          // 96 to 120  50 to 75      60             First Five Years 
+		   0.001,       0.002,       0.04,        0.207,       0.75,         // 96 to 120  50 to 75      60             Second Five Year 
+		   0,           0.002,       0.02,        0.278,       0.7,          // 96 to 120  50 to 75      80             First Five Years 
+		   0.002,       0.002,       0.06,        0.336,       0.6,          // 96 to 120  50 to 75      80             Second Five Year 
+		   0,           0,           0,           0.025,       0.975,        // 96 to 120  75 to 100     0              First Five Years 
+		   0,           0,           0,           0.025,       0.975,        // 96 to 120  75 to 100     0              Second Five Year 
+		   0,           0,           0,           0.05,        0.95,         // 96 to 120  75 to 100     20             First Five Years 
+		   0,           0,           0.01,        0.08,        0.91,         // 96 to 120  75 to 100     20             Second Five Year 
+		   0,           0,           0.005,       0.08,        0.915,        // 96 to 120  75 to 100     40             First Five Years 
+		   0,           0,           0.02,        0.13,        0.85,         // 96 to 120  75 to 100     40             Second Five Year 
+		   0,           0.001,       0.007,       0.13,        0.862,        // 96 to 120  75 to 100     60             First Five Years 
+		   0.001,       0.001,       0.03,        0.18,        0.788,        // 96 to 120  75 to 100     60             Second Five Year 
+		   0,           0.002,       0.01,        0.18,        0.808,        // 96 to 120  75 to 100     80             First Five Years 
+		   0.002,       0.002,       0.04,        0.236,       0.72);        // 96 to 120  75 to 100     80             Second Five Year ;
+	numcases = 1;
+	EqnDirty = TRUE;
+	title = "Post-treatmentTP";
+	whenchanged = 1604443244;
+	belief = (0.22327, 0.23335, 0.20422, 0.19036, 0.1488);
+	visual V1 {
+		center = (408, 432);
+		height = 24;
+		link 1 {
+			path = ((259, 362), (327, 394));
+			};
+		};
+	};
+
+node NP {
+	discrete = TRUE;
+	states = (N_Limited, P_Limited);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (Lake_TP);
+	probs = 
+		// N Limited    P Limited     // Lake_TP  
+		  (0.01408464,  0.9859154,    // 0 to 12  
+		   0.2894737,   0.7105263,    // 12 to 24 
+		   0.7404255,   0.2595745,    // 24 to 50 
+		   0.9906541,   0.009345886,  // 50 to 96 
+		   0.9999995,   4.7619e-7);   // >= 96    ;
+	numcases = 
+		                 // Lake_TP  
+		  (71,           // 0 to 12  
+		   266,          // 12 to 24 
+		   235,          // 24 to 50 
+		   107,          // 50 to 96 
+		   21);          // >= 96    ;
+	title = "Summer NP Ratio";
+	whenchanged = 1603746873;
+	belief = (0.5592839, 0.4407161);
+	visual V1 {
+		center = (690, 294);
+		height = 14;
+		link 1 {
+			path = ((450, 375), (510, 294), (605, 294));
+			};
+		};
+	};
+
+node UV254 {
+	discrete = FALSE;
+	levels = (-INFINITY, 0.1, INFINITY);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	probs = 
+		// < 0.1        >= 0.1       
+		  (0.4079269,   0.5920731);
+	numcases = 700;
+	title = "Organic Matter (UV254)";
+	whenchanged = 1603746274;
+	belief = (0.4079269, 0.5920731);
+	visual V1 {
+		center = (1440, 210);
+		height = 2;
+		};
+	};
+
+node FloatMac {
+	discrete = FALSE;
+	levels = (0, 0, 20, 40, 87.5);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	probs = 
+		// 0            0 to 20      20 to 40     40 to 87.5   
+		  (0.4236448,   0.3165349,   0.1852904,   0.07453);
+	numcases = 700;
+	title = "Floating Macrophyte Coverage";
+	whenchanged = 1603985630;
+	belief = (0.4236448, 0.3165349, 0.1852904, 0.07453);
+	visual V1 {
+		center = (1458, 402);
+		height = 11;
+		};
+	};
+
+node SubMac {
+	discrete = FALSE;
+	levels = (0, 0, 20, 40, 87.5);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	probs = 
+		// 0            0 to 20      20 to 40     40 to 87.5   
+		  (0.2929121,   0.291261,    0.2608322,   0.1549948);
+	numcases = 700;
+	title = "Submerged Macrophyte Coverage";
+	whenchanged = 1604443465;
+	belief = (0.2929121, 0.2912609, 0.2608322, 0.1549948);
+	visual V1 {
+		center = (1188, 408);
+		height = 12;
+		};
+	};
+
+node E {
+	discrete = TRUE;
+	states = (Uninhibited, Inhibited);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (UV254, FloatMac, SubMac);
+	probs = 
+		// Uninhibited  Inhibited     // UV254  FloatMac   SubMac     
+		  (0.99,        0.01,         // < 0.1  0          0          
+		   0.98,        0.02,         // < 0.1  0          0 to 20    
+		   0.95,        0.05,         // < 0.1  0          20 to 40   
+		   0.95,        0.05,         // < 0.1  0          40 to 87.5 
+		   0.85,        0.15,         // < 0.1  0 to 20    0          
+		   0.85,        0.15,         // < 0.1  0 to 20    0 to 20    
+		   0.75,        0.25,         // < 0.1  0 to 20    20 to 40   
+		   0.7,         0.3,          // < 0.1  0 to 20    40 to 87.5 
+		   0.7,         0.3,          // < 0.1  20 to 40   0          
+		   0.65,        0.35,         // < 0.1  20 to 40   0 to 20    
+		   0.65,        0.35,         // < 0.1  20 to 40   20 to 40   
+		   0.6,         0.4,          // < 0.1  20 to 40   40 to 87.5 
+		   0.5,         0.5,          // < 0.1  40 to 87.5 0          
+		   0.5,         0.5,          // < 0.1  40 to 87.5 0 to 20    
+		   0.45,        0.55,         // < 0.1  40 to 87.5 20 to 40   
+		   0.4,         0.6,          // < 0.1  40 to 87.5 40 to 87.5 
+		   0.8,         0.2,          // >= 0.1 0          0          
+		   0.8,         0.2,          // >= 0.1 0          0 to 20    
+		   0.75,        0.25,         // >= 0.1 0          20 to 40   
+		   0.7,         0.3,          // >= 0.1 0          40 to 87.5 
+		   0.7,         0.3,          // >= 0.1 0 to 20    0          
+		   0.7,         0.3,          // >= 0.1 0 to 20    0 to 20    
+		   0.65,        0.35,         // >= 0.1 0 to 20    20 to 40   
+		   0.6,         0.4,          // >= 0.1 0 to 20    40 to 87.5 
+		   0.5,         0.5,          // >= 0.1 20 to 40   0          
+		   0.5,         0.5,          // >= 0.1 20 to 40   0 to 20    
+		   0.45,        0.55,         // >= 0.1 20 to 40   20 to 40   
+		   0.4,         0.6,          // >= 0.1 20 to 40   40 to 87.5 
+		   0.25,        0.75,         // >= 0.1 40 to 87.5 0          
+		   0.25,        0.75,         // >= 0.1 40 to 87.5 0 to 20    
+		   0.2,         0.8,          // >= 0.1 40 to 87.5 20 to 40   
+		   0.2,         0.8);         // >= 0.1 40 to 87.5 40 to 87.5 ;
+	numcases = 1;
+	title = "Light Availability";
+	whenchanged = 1603745341;
+	belief = (0.7162592, 0.2837408);
+	visual V1 {
+		center = (1338, 306);
+		height = 8;
+		link 2 {
+			path = ((1395, 352), (1370, 333));
+			};
+		link 3 {
+			path = ((1262, 358), (1300, 333));
+			};
+		};
+	};
+
+node Temp {
+	discrete = FALSE;
+	levels = (-INFINITY, 19, INFINITY);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	probs = 
+		// < 19         >= 19        
+		  (0.2260707,   0.7739293);
+	numcases = 700;
+	title = "Mean Summer Temperature";
+	whenchanged = 1603746274;
+	belief = (0.2260707, 0.7739293);
+	visual V1 {
+		center = (984, 174);
+		height = 7;
+		};
+	};
+
+node Osgood {
+	discrete = FALSE;
+	levels = (0, 6, 7, INFINITY);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	probs = 
+		// 0 to 6       6 to 7       >= 7         
+		  (0.08550818,  0.02937342,  0.8851184);
+	numcases = 700;
+	title = "Osgood Index (m/sqrt(km2))";
+	whenchanged = 1604443370;
+	belief = (0.08550818, 0.02937342, 0.8851184);
+	visual V1 {
+		center = (744, 192);
+		height = 18;
+		};
+	};
+
+node Zoop {
+	discrete = TRUE;
+	states = (Present, Absent);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	probs = 
+		// Present      Absent       
+		  (0.3565258,   0.6434742);
+	numcases = 700;
+	title = "Large-bodied Grazers Present?";
+	whenchanged = 1604443340;
+	belief = (0.3565258, 0.6434742);
+	visual V1 {
+		center = (960, 384);
+		height = 13;
+		};
+	};
+
+node SummerFlush {
+	discrete = TRUE;
+	states = (Long_Residence_Time);
+	kind = NATURE;
+	chance = DETERMIN;
+	parents = ();
+	functable = 
+		  (Long_Residence_Time);
+	title = "Summer Flushing Rate";
+	whenchanged = 1603742991;
+	belief = (1);
+	visual V1 {
+		center = (1218, 204);
+		height = 9;
+		};
+	};
+
+node F {
+	discrete = TRUE;
+	states = (Very_Limiting, Somewhat_Limiting, Not_Limiting);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (E, Temp, Osgood, SubMac, Zoop, SummerFlush);
+	probs = 
+		// Very Limiting Somewhat Limitin Not Limiting  // E           Temp  Osgood SubMac     Zoop    SummerFlush      
+		  (0.45,        0.4,         0.15,         // Uninhibited < 19  0 to 6 0          Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Uninhibited < 19  0 to 6 0          Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Uninhibited < 19  0 to 6 0 to 20    Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Uninhibited < 19  0 to 6 0 to 20    Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Uninhibited < 19  0 to 6 20 to 40   Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Uninhibited < 19  0 to 6 20 to 40   Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Uninhibited < 19  0 to 6 40 to 87.5 Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Uninhibited < 19  0 to 6 40 to 87.5 Absent  Long Residence T 
+		   0.14,        0.56,        0.3,          // Uninhibited < 19  6 to 7 0          Present Long Residence T 
+		   0.14,        0.53,        0.33,         // Uninhibited < 19  6 to 7 0          Absent  Long Residence T 
+		   0.14,        0.57,        0.29,         // Uninhibited < 19  6 to 7 0 to 20    Present Long Residence T 
+		   0.14,        0.54,        0.32,         // Uninhibited < 19  6 to 7 0 to 20    Absent  Long Residence T 
+		   0.14,        0.58,        0.28,         // Uninhibited < 19  6 to 7 20 to 40   Present Long Residence T 
+		   0.14,        0.55,        0.31,         // Uninhibited < 19  6 to 7 20 to 40   Absent  Long Residence T 
+		   0.14,        0.6,         0.26,         // Uninhibited < 19  6 to 7 40 to 87.5 Present Long Residence T 
+		   0.14,        0.56,        0.3,          // Uninhibited < 19  6 to 7 40 to 87.5 Absent  Long Residence T 
+		   0.14,        0.56,        0.3,          // Uninhibited < 19  >= 7   0          Present Long Residence T 
+		   0.14,        0.53,        0.33,         // Uninhibited < 19  >= 7   0          Absent  Long Residence T 
+		   0.14,        0.57,        0.29,         // Uninhibited < 19  >= 7   0 to 20    Present Long Residence T 
+		   0.14,        0.54,        0.32,         // Uninhibited < 19  >= 7   0 to 20    Absent  Long Residence T 
+		   0.14,        0.58,        0.28,         // Uninhibited < 19  >= 7   20 to 40   Present Long Residence T 
+		   0.14,        0.55,        0.31,         // Uninhibited < 19  >= 7   20 to 40   Absent  Long Residence T 
+		   0.14,        0.6,         0.26,         // Uninhibited < 19  >= 7   40 to 87.5 Present Long Residence T 
+		   0.14,        0.56,        0.3,          // Uninhibited < 19  >= 7   40 to 87.5 Absent  Long Residence T 
+		   0.35,        0.38,        0.27,         // Uninhibited >= 19 0 to 6 0          Present Long Residence T 
+		   0.35,        0.35,        0.3,          // Uninhibited >= 19 0 to 6 0          Absent  Long Residence T 
+		   0.35,        0.39,        0.26,         // Uninhibited >= 19 0 to 6 0 to 20    Present Long Residence T 
+		   0.35,        0.36,        0.29,         // Uninhibited >= 19 0 to 6 0 to 20    Absent  Long Residence T 
+		   0.35,        0.4,         0.25,         // Uninhibited >= 19 0 to 6 20 to 40   Present Long Residence T 
+		   0.35,        0.37,        0.28,         // Uninhibited >= 19 0 to 6 20 to 40   Absent  Long Residence T 
+		   0.35,        0.45,        0.2,          // Uninhibited >= 19 0 to 6 40 to 87.5 Present Long Residence T 
+		   0.35,        0.42,        0.23,         // Uninhibited >= 19 0 to 6 40 to 87.5 Absent  Long Residence T 
+		   0.02,        0.15,        0.83,         // Uninhibited >= 19 6 to 7 0          Present Long Residence T 
+		   0.014,       0.136,       0.85,         // Uninhibited >= 19 6 to 7 0          Absent  Long Residence T 
+		   0.02,        0.18,        0.8,          // Uninhibited >= 19 6 to 7 0 to 20    Present Long Residence T 
+		   0.02,        0.15,        0.83,         // Uninhibited >= 19 6 to 7 0 to 20    Absent  Long Residence T 
+		   0.02,        0.19,        0.79,         // Uninhibited >= 19 6 to 7 20 to 40   Present Long Residence T 
+		   0.02,        0.14,        0.84,         // Uninhibited >= 19 6 to 7 20 to 40   Absent  Long Residence T 
+		   0.02,        0.2,         0.78,         // Uninhibited >= 19 6 to 7 40 to 87.5 Present Long Residence T 
+		   0.02,        0.15,        0.83,         // Uninhibited >= 19 6 to 7 40 to 87.5 Absent  Long Residence T 
+		   0.02,        0.15,        0.83,         // Uninhibited >= 19 >= 7   0          Present Long Residence T 
+		   0.014,       0.136,       0.85,         // Uninhibited >= 19 >= 7   0          Absent  Long Residence T 
+		   0.02,        0.18,        0.8,          // Uninhibited >= 19 >= 7   0 to 20    Present Long Residence T 
+		   0.02,        0.15,        0.83,         // Uninhibited >= 19 >= 7   0 to 20    Absent  Long Residence T 
+		   0.02,        0.19,        0.79,         // Uninhibited >= 19 >= 7   20 to 40   Present Long Residence T 
+		   0.02,        0.14,        0.84,         // Uninhibited >= 19 >= 7   20 to 40   Absent  Long Residence T 
+		   0.02,        0.2,         0.78,         // Uninhibited >= 19 >= 7   40 to 87.5 Present Long Residence T 
+		   0.02,        0.15,        0.83,         // Uninhibited >= 19 >= 7   40 to 87.5 Absent  Long Residence T 
+		   0.56,        0.35,        0.09,         // Inhibited   < 19  0 to 6 0          Present Long Residence T 
+		   0.56,        0.35,        0.09,         // Inhibited   < 19  0 to 6 0          Absent  Long Residence T 
+		   0.56,        0.35,        0.09,         // Inhibited   < 19  0 to 6 0 to 20    Present Long Residence T 
+		   0.56,        0.35,        0.09,         // Inhibited   < 19  0 to 6 0 to 20    Absent  Long Residence T 
+		   0.56,        0.35,        0.09,         // Inhibited   < 19  0 to 6 20 to 40   Present Long Residence T 
+		   0.56,        0.35,        0.09,         // Inhibited   < 19  0 to 6 20 to 40   Absent  Long Residence T 
+		   0.561,       0.357,       0.082,        // Inhibited   < 19  0 to 6 40 to 87.5 Present Long Residence T 
+		   0.56,        0.35,        0.09,         // Inhibited   < 19  0 to 6 40 to 87.5 Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Inhibited   < 19  6 to 7 0          Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Inhibited   < 19  6 to 7 0          Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Inhibited   < 19  6 to 7 0 to 20    Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Inhibited   < 19  6 to 7 0 to 20    Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Inhibited   < 19  6 to 7 20 to 40   Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Inhibited   < 19  6 to 7 20 to 40   Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Inhibited   < 19  6 to 7 40 to 87.5 Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Inhibited   < 19  6 to 7 40 to 87.5 Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Inhibited   < 19  >= 7   0          Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Inhibited   < 19  >= 7   0          Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Inhibited   < 19  >= 7   0 to 20    Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Inhibited   < 19  >= 7   0 to 20    Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Inhibited   < 19  >= 7   20 to 40   Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Inhibited   < 19  >= 7   20 to 40   Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Inhibited   < 19  >= 7   40 to 87.5 Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Inhibited   < 19  >= 7   40 to 87.5 Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Inhibited   >= 19 0 to 6 0          Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Inhibited   >= 19 0 to 6 0          Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Inhibited   >= 19 0 to 6 0 to 20    Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Inhibited   >= 19 0 to 6 0 to 20    Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Inhibited   >= 19 0 to 6 20 to 40   Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Inhibited   >= 19 0 to 6 20 to 40   Absent  Long Residence T 
+		   0.45,        0.4,         0.15,         // Inhibited   >= 19 0 to 6 40 to 87.5 Present Long Residence T 
+		   0.4,         0.45,        0.15,         // Inhibited   >= 19 0 to 6 40 to 87.5 Absent  Long Residence T 
+		   0.09,        0.32,        0.59,         // Inhibited   >= 19 6 to 7 0          Present Long Residence T 
+		   0.09,        0.28,        0.63,         // Inhibited   >= 19 6 to 7 0          Absent  Long Residence T 
+		   0.09,        0.34,        0.57,         // Inhibited   >= 19 6 to 7 0 to 20    Present Long Residence T 
+		   0.09,        0.3,         0.61,         // Inhibited   >= 19 6 to 7 0 to 20    Absent  Long Residence T 
+		   0.09,        0.34,        0.57,         // Inhibited   >= 19 6 to 7 20 to 40   Present Long Residence T 
+		   0.09,        0.3,         0.61,         // Inhibited   >= 19 6 to 7 20 to 40   Absent  Long Residence T 
+		   0.09,        0.34,        0.57,         // Inhibited   >= 19 6 to 7 40 to 87.5 Present Long Residence T 
+		   0.09,        0.3,         0.61,         // Inhibited   >= 19 6 to 7 40 to 87.5 Absent  Long Residence T 
+		   0.09,        0.32,        0.59,         // Inhibited   >= 19 >= 7   0          Present Long Residence T 
+		   0.09,        0.28,        0.63,         // Inhibited   >= 19 >= 7   0          Absent  Long Residence T 
+		   0.09,        0.34,        0.57,         // Inhibited   >= 19 >= 7   0 to 20    Present Long Residence T 
+		   0.09,        0.3,         0.61,         // Inhibited   >= 19 >= 7   0 to 20    Absent  Long Residence T 
+		   0.09,        0.34,        0.57,         // Inhibited   >= 19 >= 7   20 to 40   Present Long Residence T 
+		   0.09,        0.3,         0.61,         // Inhibited   >= 19 >= 7   20 to 40   Absent  Long Residence T 
+		   0.09,        0.34,        0.57,         // Inhibited   >= 19 >= 7   40 to 87.5 Present Long Residence T 
+		   0.09,        0.3,         0.61);        // Inhibited   >= 19 >= 7   40 to 87.5 Absent  Long Residence T ;
+	numcases = 1;
+	title = "Environmental Conditions";
+	whenchanged = 1603745969;
+	belief = (0.1061485, 0.2818958, 0.6119557);
+	visual V1 {
+		center = (990, 282);
+		height = 1;
+		link 4 {
+			path = ((1109, 358), (1041, 316));
+			};
+		link 5 {
+			path = ((968, 358), (981, 316));
+			};
+		};
+	};
+
+node MC {
+	discrete = FALSE;
+	levels = (0, 1, 8, 50, INFINITY);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (TPG, A, Lake_TP, NP, F);
+	probs = 
+		// 0 to 1       1 to 8       8 to 50      >= 50         // TPG     A            Lake_TP  NP        F                
+		  (0.9896948,   0.003435082, 0.003435082, 0.003435082,  // Present Supportive   0 to 12  N Limited Very Limiting    
+		   0.9979726,   6.757891e-4, 6.757891e-4, 6.757891e-4,  // Present Supportive   0 to 12  N Limited Somewhat Limitin 
+		   0.9994714,   1.761857e-4, 1.761857e-4, 1.761857e-4,  // Present Supportive   0 to 12  N Limited Not Limiting     
+		   0.999903,    3.233426e-5, 3.233426e-5, 3.233426e-5,  // Present Supportive   0 to 12  P Limited Very Limiting    
+		   0.9999754,   8.1868e-6,   8.1868e-6,   8.1868e-6,    // Present Supportive   0 to 12  P Limited Somewhat Limitin 
+		   0.9999918,   2.719541e-6, 2.719541e-6, 2.719541e-6,  // Present Supportive   0 to 12  P Limited Not Limiting     
+		   0.312393,    0.1600308,   0.1414018,   0.3861743,    // Present Supportive   12 to 24 N Limited Very Limiting    
+		   0.9999004,   5.066686e-5, 2.04328e-5,  2.84747e-5,   // Present Supportive   12 to 24 N Limited Somewhat Limitin 
+		   0.9414244,   0.04756126,  3.342434e-6, 0.01101094,   // Present Supportive   12 to 24 N Limited Not Limiting     
+		   0.9028084,   0.09717147,  1.006865e-5, 1.006865e-5,  // Present Supportive   12 to 24 P Limited Very Limiting    
+		   0.9823425,   0.01765158,  2.953486e-6, 2.953486e-6,  // Present Supportive   12 to 24 P Limited Somewhat Limitin 
+		   0.9999893,   8.657596e-6, 1.03284e-6,  1.03284e-6,   // Present Supportive   12 to 24 P Limited Not Limiting     
+		   0.8849733,   0.1150127,   7.386875e-6, 6.582703e-6,  // Present Supportive   24 to 50 N Limited Very Limiting    
+		   0.9056473,   1.670617e-4, 1.607502e-5, 0.09416962,   // Present Supportive   24 to 50 N Limited Somewhat Limitin 
+		   0.9145406,   0.03507138,  0.04758948,  0.002798573,  // Present Supportive   24 to 50 N Limited Not Limiting     
+		   0.9999541,   1.509243e-5, 1.57257e-5,  1.509243e-5,  // Present Supportive   24 to 50 P Limited Very Limiting    
+		   0.9999702,   7.547384e-6, 1.470404e-5, 7.547384e-6,  // Present Supportive   24 to 50 P Limited Somewhat Limitin 
+		   0.9764562,   3.920449e-6, 0.023536,    3.920449e-6,  // Present Supportive   24 to 50 P Limited Not Limiting     
+		   0.7211573,   0.1121894,   0.1666426,   1.067822e-5,  // Present Supportive   50 to 96 N Limited Very Limiting    
+		   0.9999878,   4.594795e-6, 3.811376e-6, 3.759037e-6,  // Present Supportive   50 to 96 N Limited Somewhat Limitin 
+		   0.9018587,   0.0449225,   0.01226771,  0.04095107,   // Present Supportive   50 to 96 N Limited Not Limiting     
+		   0.9940159,   0.001994693, 0.001994693, 0.001994693,  // Present Supportive   50 to 96 P Limited Very Limiting    
+		   0.9981297,   6.234482e-4, 6.234482e-4, 6.234482e-4,  // Present Supportive   50 to 96 P Limited Somewhat Limitin 
+		   0.9994383,   1.872175e-4, 1.872175e-4, 1.872175e-4,  // Present Supportive   50 to 96 P Limited Not Limiting     
+		   0.9997947,   1.30121e-4,  3.7603e-5,   3.7603e-5,    // Present Supportive   >= 96    N Limited Very Limiting    
+		   0.9999454,   2.188338e-5, 1.635532e-5, 1.635532e-5,  // Present Supportive   >= 96    N Limited Somewhat Limitin 
+		   0.7674732,   0.2324976,   1.459751e-5, 1.459751e-5,  // Present Supportive   >= 96    N Limited Not Limiting     
+		   0.25,        0.25,        0.25,        0.25,         // Present Supportive   >= 96    P Limited Very Limiting    
+		   0.25,        0.25,        0.25,        0.25,         // Present Supportive   >= 96    P Limited Somewhat Limitin 
+		   0.25,        0.25,        0.25,        0.25,         // Present Supportive   >= 96    P Limited Not Limiting     
+		   0.9887892,   0.003736935, 0.003736935, 0.003736935,  // Present Neutral      0 to 12  N Limited Very Limiting    
+		   0.9977939,   7.353568e-4, 7.353568e-4, 7.353568e-4,  // Present Neutral      0 to 12  N Limited Somewhat Limitin 
+		   0.9994248,   1.917241e-4, 1.917241e-4, 1.917241e-4,  // Present Neutral      0 to 12  N Limited Not Limiting     
+		   0.9998944,   3.518639e-5, 3.518639e-5, 3.518639e-5,  // Present Neutral      0 to 12  P Limited Very Limiting    
+		   0.9999733,   8.908954e-6, 8.908954e-6, 8.908954e-6,  // Present Neutral      0 to 12  P Limited Somewhat Limitin 
+		   0.9999911,   2.959432e-6, 2.959432e-6, 2.959432e-6,  // Present Neutral      0 to 12  P Limited Not Limiting     
+		   0.311397,    0.1601319,   0.1061569,   0.4223142,    // Present Neutral      12 to 24 N Limited Very Limiting    
+		   0.9998916,   5.513593e-5, 2.223514e-5, 3.098638e-5,  // Present Neutral      12 to 24 N Limited Somewhat Limitin 
+		   0.9334857,   0.05619632,  3.637269e-6, 0.01031435,   // Present Neutral      12 to 24 N Limited Not Limiting     
+		   0.9030421,   0.09693602,  1.095679e-5, 1.095679e-5,  // Present Neutral      12 to 24 P Limited Very Limiting    
+		   0.9788068,   0.02118678,  3.214013e-6, 3.214013e-6,  // Present Neutral      12 to 24 P Limited Somewhat Limitin 
+		   0.9999883,   9.421279e-6, 1.123947e-6, 1.123947e-6,  // Present Neutral      12 to 24 P Limited Not Limiting     
+		   0.8449982,   0.1549866,   8.038474e-6, 7.163366e-6,  // Present Neutral      24 to 50 N Limited Very Limiting    
+		   0.904591,    1.817835e-4, 1.749295e-5, 0.09520969,   // Present Neutral      24 to 50 N Limited Somewhat Limitin 
+		   0.9066561,   0.04819239,  0.04205418,  0.003097342,  // Present Neutral      24 to 50 N Limited Not Limiting     
+		   0.9999501,   1.642371e-5, 1.711284e-5, 1.642371e-5,  // Present Neutral      24 to 50 P Limited Very Limiting    
+		   0.9999676,   8.213136e-6, 1.600107e-5, 8.213136e-6,  // Present Neutral      24 to 50 P Limited Somewhat Limitin 
+		   0.9638931,   4.266273e-6, 0.03609837,  4.266273e-6,  // Present Neutral      24 to 50 P Limited Not Limiting     
+		   0.7583452,   0.107565,    0.1340782,   1.16201e-5,   // Present Neutral      50 to 96 N Limited Very Limiting    
+		   0.9999868,   5.000102e-6, 4.147577e-6, 4.090622e-6,  // Present Neutral      50 to 96 N Limited Somewhat Limitin 
+		   0.8828881,   0.06694578,  0.01415838,  0.03600778,   // Present Neutral      50 to 96 N Limited Not Limiting     
+		   0.9934892,   0.002170259, 0.002170259, 0.002170259,  // Present Neutral      50 to 96 P Limited Very Limiting    
+		   0.9979648,   6.784055e-4, 6.784055e-4, 6.784055e-4,  // Present Neutral      50 to 96 P Limited Somewhat Limitin 
+		   0.9993888,   2.037287e-4, 2.037287e-4, 2.037287e-4,  // Present Neutral      50 to 96 P Limited Not Limiting     
+		   0.9997765,   1.415974e-4, 4.091984e-5, 4.091984e-5,  // Present Neutral      >= 96    N Limited Very Limiting    
+		   0.9999406,   2.381367e-5, 1.779801e-5, 1.779801e-5,  // Present Neutral      >= 96    N Limited Somewhat Limitin 
+		   0.7849645,   0.2150037,   1.588512e-5, 1.588512e-5,  // Present Neutral      >= 96    N Limited Not Limiting     
+		   0.25,        0.25,        0.25,        0.25,         // Present Neutral      >= 96    P Limited Very Limiting    
+		   0.25,        0.25,        0.25,        0.25,         // Present Neutral      >= 96    P Limited Somewhat Limitin 
+		   0.25,        0.25,        0.25,        0.25,         // Present Neutral      >= 96    P Limited Not Limiting     
+		   0.9866194,   0.004460202, 0.004460202, 0.004460202,  // Present Unsupportive 0 to 12  N Limited Very Limiting    
+		   0.9973654,   8.782091e-4, 8.782091e-4, 8.782091e-4,  // Present Unsupportive 0 to 12  N Limited Somewhat Limitin 
+		   0.999313,    2.289933e-4, 2.289933e-4, 2.289933e-4,  // Present Unsupportive 0 to 12  N Limited Not Limiting     
+		   0.9998739,   4.202754e-5, 4.202754e-5, 4.202754e-5,  // Present Unsupportive 0 to 12  P Limited Very Limiting    
+		   0.9999681,   1.064114e-5, 1.064114e-5, 1.064114e-5,  // Present Unsupportive 0 to 12  P Limited Somewhat Limitin 
+		   0.9999894,   3.534846e-6, 3.534846e-6, 3.534846e-6,  // Present Unsupportive 0 to 12  P Limited Not Limiting     
+		   0.330536,    0.1769737,   0.1016195,   0.3908707,    // Present Unsupportive 12 to 24 N Limited Very Limiting    
+		   0.9998706,   6.585557e-5, 2.655831e-5, 3.701098e-5,  // Present Unsupportive 12 to 24 N Limited Somewhat Limitin 
+		   0.9445058,   0.04317579,  4.344469e-6, 0.01231408,   // Present Unsupportive 12 to 24 N Limited Not Limiting     
+		   0.9037459,   0.09622794,  1.308711e-5, 1.308711e-5,  // Present Unsupportive 12 to 24 P Limited Very Limiting    
+		   0.9851022,   0.01489008,  3.838922e-6, 3.838922e-6,  // Present Unsupportive 12 to 24 P Limited Somewhat Limitin 
+		   0.9999861,   1.125308e-5, 1.34248e-6,  1.34248e-6,   // Present Unsupportive 12 to 24 P Limited Not Limiting     
+		   0.8445219,   0.1554599,   9.6014e-6,   8.556147e-6,  // Present Unsupportive 24 to 50 N Limited Very Limiting    
+		   0.9045326,   2.171088e-4, 2.089403e-5, 0.09522943,   // Present Unsupportive 24 to 50 N Limited Somewhat Limitin 
+		   0.9032427,   0.04474307,  0.0490629,   0.002951351,  // Present Unsupportive 24 to 50 N Limited Not Limiting     
+		   0.9999403,   1.961698e-5, 2.04401e-5,  1.961698e-5,  // Present Unsupportive 24 to 50 P Limited Very Limiting    
+		   0.9999613,   9.810036e-6, 1.911217e-5, 9.810036e-6,  // Present Unsupportive 24 to 50 P Limited Somewhat Limitin 
+		   0.9629136,   5.095776e-6, 0.03707618,  5.095776e-6,  // Present Unsupportive 24 to 50 P Limited Not Limiting     
+		   0.689884,    0.160656,    0.1494461,   1.387942e-5,  // Present Unsupportive 50 to 96 N Limited Very Limiting    
+		   0.9999842,   5.972287e-6, 4.954005e-6, 4.885976e-6,  // Present Unsupportive 50 to 96 N Limited Somewhat Limitin 
+		   0.9107268,   0.04285556,  0.01318863,  0.03322904,   // Present Unsupportive 50 to 96 N Limited Not Limiting     
+		   0.9922267,   0.002591123, 0.002591123, 0.002591123,  // Present Unsupportive 50 to 96 P Limited Very Limiting    
+		   0.9975694,   8.102035e-4, 8.102035e-4, 8.102035e-4,  // Present Unsupportive 50 to 96 P Limited Somewhat Limitin 
+		   0.99927,     2.433309e-4, 2.433309e-4, 2.433309e-4,  // Present Unsupportive 50 to 96 P Limited Not Limiting     
+		   0.9997332,   1.691241e-4, 4.887567e-5, 4.887567e-5,  // Present Unsupportive >= 96    N Limited Very Limiting    
+		   0.999929,    2.844374e-5, 2.125848e-5, 2.125848e-5,  // Present Unsupportive >= 96    N Limited Somewhat Limitin 
+		   0.7483604,   0.2516017,   1.897362e-5, 1.897362e-5,  // Present Unsupportive >= 96    N Limited Not Limiting     
+		   0.25,        0.25,        0.25,        0.25,         // Present Unsupportive >= 96    P Limited Very Limiting    
+		   0.25,        0.25,        0.25,        0.25,         // Present Unsupportive >= 96    P Limited Somewhat Limitin 
+		   0.25,        0.25,        0.25,        0.25,         // Present Unsupportive >= 96    P Limited Not Limiting     
+		   0.997417,    8.610176e-4, 8.610176e-4, 8.610176e-4,  // Absent  Supportive   0 to 12  N Limited Very Limiting    
+		   0.9994929,   1.690332e-4, 1.690332e-4, 1.690332e-4,  // Absent  Supportive   0 to 12  N Limited Somewhat Limitin 
+		   0.9998679,   4.405225e-5, 4.405225e-5, 4.405225e-5,  // Absent  Supportive   0 to 12  N Limited Not Limiting     
+		   0.9999757,   8.083763e-6, 8.083763e-6, 8.083763e-6,  // Absent  Supportive   0 to 12  P Limited Very Limiting    
+		   0.9999939,   2.046712e-6, 2.046712e-6, 2.046712e-6,  // Absent  Supportive   0 to 12  P Limited Somewhat Limitin 
+		   0.999998,    6.798867e-7, 6.798867e-7, 6.798867e-7,  // Absent  Supportive   0 to 12  P Limited Not Limiting     
+		   0.3158357,   0.162507,    0.1106565,   0.4110008,    // Absent  Supportive   12 to 24 N Limited Very Limiting    
+		   0.9999751,   1.26672e-5,  5.108278e-6, 7.118826e-6,  // Absent  Supportive   12 to 24 N Limited Somewhat Limitin 
+		   0.9363313,   0.0542328,   8.356147e-7, 0.009435077,  // Absent  Supportive   12 to 24 N Limited Not Limiting     
+		   0.8797808,   0.1202142,   2.517203e-6, 2.517203e-6,  // Absent  Supportive   12 to 24 P Limited Very Limiting    
+		   0.98633,     0.01366851,  7.383745e-7, 7.383745e-7,  // Absent  Supportive   12 to 24 P Limited Somewhat Limitin 
+		   0.9999973,   2.164413e-6, 2.582101e-7, 2.582101e-7,  // Absent  Supportive   12 to 24 P Limited Not Limiting     
+		   0.8679625,   0.132034,    1.84674e-6,  1.645693e-6,  // Absent  Supportive   24 to 50 N Limited Very Limiting    
+		   0.9134979,   4.180721e-5, 4.018863e-6, 0.08645624,   // Absent  Supportive   24 to 50 N Limited Somewhat Limitin 
+		   0.9025808,   0.04275032,  0.05178861,  0.002880243,  // Absent  Supportive   24 to 50 N Limited Not Limiting     
+		   0.9999885,   3.773149e-6, 3.931471e-6, 3.773149e-6,  // Absent  Supportive   24 to 50 P Limited Very Limiting    
+		   0.9999925,   1.886857e-6, 3.676052e-6, 1.886857e-6,  // Absent  Supportive   24 to 50 P Limited Somewhat Limitin 
+		   0.9736933,   9.801181e-7, 0.02630477,  9.801181e-7,  // Absent  Supportive   24 to 50 P Limited Not Limiting     
+		   0.7618457,   0.1119447,   0.1262069,   2.669614e-6,  // Absent  Supportive   50 to 96 N Limited Very Limiting    
+		   0.999997,    1.148703e-6, 9.528466e-7, 9.397618e-7,  // Absent  Supportive   50 to 96 N Limited Somewhat Limitin 
+		   0.8898749,   0.06009778,  0.01178977,  0.03823755,   // Absent  Supportive   50 to 96 N Limited Not Limiting     
+		   0.9985017,   4.994261e-4, 4.994261e-4, 4.994261e-4,  // Absent  Supportive   50 to 96 P Limited Very Limiting    
+		   0.9995322,   1.559352e-4, 1.559352e-4, 1.559352e-4,  // Absent  Supportive   50 to 96 P Limited Somewhat Limitin 
+		   0.9998596,   4.681096e-5, 4.681096e-5, 4.681096e-5,  // Absent  Supportive   50 to 96 P Limited Not Limiting     
+		   0.9999487,   3.253345e-5, 9.401023e-6, 9.401023e-6,  // Absent  Supportive   >= 96    N Limited Very Limiting    
+		   0.9999864,   5.470934e-6, 4.088879e-6, 4.088879e-6,  // Absent  Supportive   >= 96    N Limited Somewhat Limitin 
+		   0.7845292,   0.2154635,   3.649456e-6, 3.649456e-6,  // Absent  Supportive   >= 96    N Limited Not Limiting     
+		   0.25,        0.25,        0.25,        0.25,         // Absent  Supportive   >= 96    P Limited Very Limiting    
+		   0.25,        0.25,        0.25,        0.25,         // Absent  Supportive   >= 96    P Limited Somewhat Limitin 
+		   0.25,        0.25,        0.25,        0.25,         // Absent  Supportive   >= 96    P Limited Not Limiting     
+		   0.9971893,   9.368969e-4, 9.368969e-4, 9.368969e-4,  // Absent  Neutral      0 to 12  N Limited Very Limiting    
+		   0.9994482,   1.839409e-4, 1.839409e-4, 1.839409e-4,  // Absent  Neutral      0 to 12  N Limited Somewhat Limitin 
+		   0.9998562,   4.793792e-5, 4.793792e-5, 4.793792e-5,  // Absent  Neutral      0 to 12  N Limited Not Limiting     
+		   0.9999736,   8.796827e-6, 8.796827e-6, 8.796827e-6,  // Absent  Neutral      0 to 12  P Limited Very Limiting    
+		   0.9999933,   2.227253e-6, 2.227253e-6, 2.227253e-6,  // Absent  Neutral      0 to 12  P Limited Somewhat Limitin 
+		   0.9999978,   7.398597e-7, 7.398597e-7, 7.398597e-7,  // Absent  Neutral      0 to 12  P Limited Not Limiting     
+		   0.2730891,   0.1695372,   0.1206912,   0.4366825,    // Absent  Neutral      12 to 24 N Limited Very Limiting    
+		   0.9999729,   1.378455e-5, 5.558878e-6, 7.746775e-6,  // Absent  Neutral      12 to 24 N Limited Somewhat Limitin 
+		   0.9440097,   0.04634823,  9.093243e-7, 0.009641168,  // Absent  Neutral      12 to 24 N Limited Not Limiting     
+		   0.9079772,   0.09201735,  2.739242e-6, 2.739242e-6,  // Absent  Neutral      12 to 24 P Limited Very Limiting    
+		   0.9866269,   0.01337149,  8.035066e-7, 8.035066e-7,  // Absent  Neutral      12 to 24 P Limited Somewhat Limitin 
+		   0.9999971,   2.355336e-6, 2.809869e-7, 2.809869e-7,  // Absent  Neutral      12 to 24 P Limited Not Limiting     
+		   0.8812923,   0.1187039,   2.009641e-6, 1.790859e-6,  // Absent  Neutral      24 to 50 N Limited Very Limiting    
+		   0.9000515,   4.549244e-5, 4.373352e-6, 0.0998986,    // Absent  Neutral      24 to 50 N Limited Somewhat Limitin 
+		   0.9099694,   0.03978589,  0.047225,    0.003019731,  // Absent  Neutral      24 to 50 N Limited Not Limiting     
+		   0.9999875,   4.105979e-6, 4.278267e-6, 4.105979e-6,  // Absent  Neutral      24 to 50 P Limited Very Limiting    
+		   0.9999919,   2.053297e-6, 4.000316e-6, 2.053297e-6,  // Absent  Neutral      24 to 50 P Limited Somewhat Limitin 
+		   0.9704402,   1.066575e-6, 0.02955766,  1.066575e-6,  // Absent  Neutral      24 to 50 P Limited Not Limiting     
+		   0.7033142,   0.1435561,   0.1531268,   2.905112e-6,  // Absent  Neutral      50 to 96 N Limited Very Limiting    
+		   0.9999967,   1.25003e-6,  1.036898e-6, 1.022659e-6,  // Absent  Neutral      50 to 96 N Limited Somewhat Limitin 
+		   0.8961994,   0.05226612,  0.01386749,  0.03766697,   // Absent  Neutral      50 to 96 N Limited Not Limiting     
+		   0.9983696,   5.434566e-4, 5.434566e-4, 5.434566e-4,  // Absent  Neutral      50 to 96 P Limited Very Limiting    
+		   0.9994909,   1.696879e-4, 1.696879e-4, 1.696879e-4,  // Absent  Neutral      50 to 96 P Limited Somewhat Limitin 
+		   0.9998472,   5.093996e-5, 5.093996e-5, 5.093996e-5,  // Absent  Neutral      50 to 96 P Limited Not Limiting     
+		   0.9999442,   3.540314e-5, 1.023028e-5, 1.023028e-5,  // Absent  Neutral      >= 96    N Limited Very Limiting    
+		   0.9999852,   5.953524e-6, 4.44956e-6,  4.44956e-6,   // Absent  Neutral      >= 96    N Limited Somewhat Limitin 
+		   0.8152317,   0.1847604,   3.971373e-6, 3.971373e-6,  // Absent  Neutral      >= 96    N Limited Not Limiting     
+		   0.25,        0.25,        0.25,        0.25,         // Absent  Neutral      >= 96    P Limited Very Limiting    
+		   0.25,        0.25,        0.25,        0.25,         // Absent  Neutral      >= 96    P Limited Somewhat Limitin 
+		   0.25,        0.25,        0.25,        0.25,         // Absent  Neutral      >= 96    P Limited Not Limiting     
+		   0.9966434,   0.001118857, 0.001118857, 0.001118857,  // Absent  Unsupportive 0 to 12  N Limited Very Limiting    
+		   0.9993409,   2.196975e-4, 2.196975e-4, 2.196975e-4,  // Absent  Unsupportive 0 to 12  N Limited Somewhat Limitin 
+		   0.9998282,   5.725817e-5, 5.725817e-5, 5.725817e-5,  // Absent  Unsupportive 0 to 12  N Limited Not Limiting     
+		   0.9999685,   1.050721e-5, 1.050721e-5, 1.050721e-5,  // Absent  Unsupportive 0 to 12  P Limited Very Limiting    
+		   0.999992,    2.660307e-6, 2.660307e-6, 2.660307e-6,  // Absent  Unsupportive 0 to 12  P Limited Somewhat Limitin 
+		   0.9999974,   8.837138e-7, 8.837138e-7, 8.837138e-7,  // Absent  Unsupportive 0 to 12  P Limited Not Limiting     
+		   0.3402198,   0.1571566,   0.1209755,   0.3816481,    // Absent  Unsupportive 12 to 24 N Limited Very Limiting    
+		   0.9999676,   1.64647e-5,  6.639707e-6, 9.253e-6,     // Absent  Unsupportive 12 to 24 N Limited Somewhat Limitin 
+		   0.9224363,   0.06518093,  1.086129e-6, 0.01238168,   // Absent  Unsupportive 12 to 24 N Limited Not Limiting     
+		   0.9068722,   0.09312125,  3.271842e-6, 3.271842e-6,  // Absent  Unsupportive 12 to 24 P Limited Very Limiting    
+		   0.9878039,   0.01219421,  9.597355e-7, 9.597355e-7,  // Absent  Unsupportive 12 to 24 P Limited Somewhat Limitin 
+		   0.9999965,   2.813292e-6, 3.356204e-7, 3.356204e-7,  // Absent  Unsupportive 12 to 24 P Limited Not Limiting     
+		   0.8574808,   0.1425147,   2.400384e-6, 2.139063e-6,  // Absent  Unsupportive 24 to 50 N Limited Very Limiting    
+		   0.8990899,   5.431598e-5, 5.22367e-6,  0.1008505,    // Absent  Unsupportive 24 to 50 N Limited Somewhat Limitin 
+		   0.9117739,   0.04007177,  0.04581368,  0.002340678,  // Absent  Unsupportive 24 to 50 N Limited Not Limiting     
+		   0.9999851,   4.904318e-6, 5.110104e-6, 4.904318e-6,  // Absent  Unsupportive 24 to 50 P Limited Very Limiting    
+		   0.9999903,   2.452527e-6, 4.778111e-6, 2.452527e-6,  // Absent  Unsupportive 24 to 50 P Limited Somewhat Limitin 
+		   0.969794,    1.273953e-6, 0.0302034,   1.273953e-6,  // Absent  Unsupportive 24 to 50 P Limited Not Limiting     
+		   0.6950582,   0.1384686,   0.1664698,   3.46996e-6,   // Absent  Unsupportive 50 to 96 N Limited Very Limiting    
+		   0.9999961,   1.493078e-6, 1.238506e-6, 1.221498e-6,  // Absent  Unsupportive 50 to 96 N Limited Somewhat Limitin 
+		   0.8981006,   0.05482494,  0.0132113,   0.03386321,   // Absent  Unsupportive 50 to 96 N Limited Not Limiting     
+		   0.9980528,   6.490545e-4, 6.490545e-4, 6.490545e-4,  // Absent  Unsupportive 50 to 96 P Limited Very Limiting    
+		   0.999392,    2.026744e-4, 2.026744e-4, 2.026744e-4,  // Absent  Unsupportive 50 to 96 P Limited Somewhat Limitin 
+		   0.9998175,   6.084384e-5, 6.084384e-5, 6.084384e-5,  // Absent  Unsupportive 50 to 96 P Limited Not Limiting     
+		   0.9999333,   4.228643e-5, 1.221938e-5, 1.221938e-5,  // Absent  Unsupportive >= 96    N Limited Very Limiting    
+		   0.9999822,   7.111086e-6, 5.314703e-6, 5.314703e-6,  // Absent  Unsupportive >= 96    N Limited Somewhat Limitin 
+		   0.7547326,   0.2452579,   4.743541e-6, 4.743541e-6,  // Absent  Unsupportive >= 96    N Limited Not Limiting     
+		   0.25,        0.25,        0.25,        0.25,         // Absent  Unsupportive >= 96    P Limited Very Limiting    
+		   0.25,        0.25,        0.25,        0.25,         // Absent  Unsupportive >= 96    P Limited Somewhat Limitin 
+		   0.25,        0.25,        0.25,        0.25);        // Absent  Unsupportive >= 96    P Limited Not Limiting     ;
+	numcases = 
+		                 // TPG     A            Lake_TP  NP        F                
+		  (0.002911139,  // Present Supportive   0 to 12  N Limited Very Limiting    
+		   0.01479752,   // Present Supportive   0 to 12  N Limited Somewhat Limitin 
+		   0.05675831,   // Present Supportive   0 to 12  N Limited Not Limiting     
+		   0.3092695,    // Present Supportive   0 to 12  P Limited Very Limiting    
+		   1.221479,     // Present Supportive   0 to 12  P Limited Somewhat Limitin 
+		   3.677091,     // Present Supportive   0 to 12  P Limited Not Limiting     
+		   0.63462,      // Present Supportive   12 to 24 N Limited Very Limiting    
+		   1.479559,     // Present Supportive   12 to 24 N Limited Somewhat Limitin 
+		   3.614464,     // Present Supportive   12 to 24 N Limited Not Limiting     
+		   0.9931818,    // Present Supportive   12 to 24 P Limited Very Limiting    
+		   3.385829,     // Present Supportive   12 to 24 P Limited Somewhat Limitin 
+		   9.682044,     // Present Supportive   12 to 24 P Limited Not Limiting     
+		   1.519158,     // Present Supportive   24 to 50 N Limited Very Limiting    
+		   3.682915,     // Present Supportive   24 to 50 N Limited Somewhat Limitin 
+		   7.743052,     // Present Supportive   24 to 50 N Limited Not Limiting     
+		   0.662584,     // Present Supportive   24 to 50 P Limited Very Limiting    
+		   1.324962,     // Present Supportive   24 to 50 P Limited Somewhat Limitin 
+		   2.550728,     // Present Supportive   24 to 50 P Limited Not Limiting     
+		   1.157066,     // Present Supportive   50 to 96 N Limited Very Limiting    
+		   2.690365,     // Present Supportive   50 to 96 N Limited Somewhat Limitin 
+		   4.038717,     // Present Supportive   50 to 96 N Limited Not Limiting     
+		   0.005013303,  // Present Supportive   50 to 96 P Limited Very Limiting    
+		   0.01603982,   // Present Supportive   50 to 96 P Limited Somewhat Limitin 
+		   0.0534138,    // Present Supportive   50 to 96 P Limited Not Limiting     
+		   0.2659362,    // Present Supportive   >= 96    N Limited Very Limiting    
+		   0.6114218,    // Present Supportive   >= 96    N Limited Somewhat Limitin 
+		   0.6850483,    // Present Supportive   >= 96    N Limited Not Limiting     
+		   4e-5,         // Present Supportive   >= 96    P Limited Very Limiting    
+		   4e-5,         // Present Supportive   >= 96    P Limited Somewhat Limitin 
+		   4e-5,         // Present Supportive   >= 96    P Limited Not Limiting     
+		   0.00267599,   // Present Neutral      0 to 12  N Limited Very Limiting    
+		   0.01359884,   // Present Neutral      0 to 12  N Limited Somewhat Limitin 
+		   0.05215828,   // Present Neutral      0 to 12  N Limited Not Limiting     
+		   0.2842008,    // Present Neutral      0 to 12  P Limited Very Limiting    
+		   1.122466,     // Present Neutral      0 to 12  P Limited Somewhat Limitin 
+		   3.379027,     // Present Neutral      0 to 12  P Limited Not Limiting     
+		   0.5831817,    // Present Neutral      12 to 24 N Limited Very Limiting    
+		   1.359627,     // Present Neutral      12 to 24 N Limited Somewhat Limitin 
+		   3.321477,     // Present Neutral      12 to 24 N Limited Not Limiting     
+		   0.912676,     // Present Neutral      12 to 24 P Limited Very Limiting    
+		   3.111375,     // Present Neutral      12 to 24 P Limited Somewhat Limitin 
+		   8.897218,     // Present Neutral      12 to 24 P Limited Not Limiting     
+		   1.396015,     // Present Neutral      24 to 50 N Limited Very Limiting    
+		   3.384379,     // Present Neutral      24 to 50 N Limited Somewhat Limitin 
+		   7.1154,       // Present Neutral      24 to 50 N Limited Not Limiting     
+		   0.6088758,    // Present Neutral      24 to 50 P Limited Very Limiting    
+		   1.217562,     // Present Neutral      24 to 50 P Limited Somewhat Limitin 
+		   2.343966,     // Present Neutral      24 to 50 P Limited Not Limiting     
+		   1.063278,     // Present Neutral      50 to 96 N Limited Very Limiting    
+		   2.472285,     // Present Neutral      50 to 96 N Limited Somewhat Limitin 
+		   3.711342,     // Present Neutral      50 to 96 N Limited Not Limiting     
+		   0.004607745,  // Present Neutral      50 to 96 P Limited Very Limiting    
+		   0.01474045,   // Present Neutral      50 to 96 P Limited Somewhat Limitin 
+		   0.04908489,   // Present Neutral      50 to 96 P Limited Not Limiting     
+		   0.2443802,    // Present Neutral      >= 96    N Limited Very Limiting    
+		   0.5618607,    // Present Neutral      >= 96    N Limited Somewhat Limitin 
+		   0.62952,      // Present Neutral      >= 96    N Limited Not Limiting     
+		   4e-5,         // Present Neutral      >= 96    P Limited Very Limiting    
+		   4e-5,         // Present Neutral      >= 96    P Limited Somewhat Limitin 
+		   4e-5,         // Present Neutral      >= 96    P Limited Not Limiting     
+		   0.002242051,  // Present Unsupportive 0 to 12  N Limited Very Limiting    
+		   0.01138681,   // Present Unsupportive 0 to 12  N Limited Somewhat Limitin 
+		   0.0436694,    // Present Unsupportive 0 to 12  N Limited Not Limiting     
+		   0.2379392,    // Present Unsupportive 0 to 12  P Limited Very Limiting    
+		   0.9397486,    // Present Unsupportive 0 to 12  P Limited Somewhat Limitin 
+		   2.828978,     // Present Unsupportive 0 to 12  P Limited Not Limiting     
+		   0.4882556,    // Present Unsupportive 12 to 24 N Limited Very Limiting    
+		   1.138303,     // Present Unsupportive 12 to 24 N Limited Somewhat Limitin 
+		   2.7808,       // Present Unsupportive 12 to 24 N Limited Not Limiting     
+		   0.7641106,    // Present Unsupportive 12 to 24 P Limited Very Limiting    
+		   2.604899,     // Present Unsupportive 12 to 24 P Limited Somewhat Limitin 
+		   7.448898,     // Present Unsupportive 12 to 24 P Limited Not Limiting     
+		   1.16877,      // Present Unsupportive 24 to 50 N Limited Very Limiting    
+		   2.833461,     // Present Unsupportive 24 to 50 N Limited Somewhat Limitin 
+		   5.957136,     // Present Unsupportive 24 to 50 N Limited Not Limiting     
+		   0.5097623,    // Present Unsupportive 24 to 50 P Limited Very Limiting    
+		   1.019364,     // Present Unsupportive 24 to 50 P Limited Somewhat Limitin 
+		   1.96241,      // Present Unsupportive 24 to 50 P Limited Not Limiting     
+		   0.8901946,    // Present Unsupportive 50 to 96 N Limited Very Limiting    
+		   2.069839,     // Present Unsupportive 50 to 96 N Limited Somewhat Limitin 
+		   3.107203,     // Present Unsupportive 50 to 96 N Limited Not Limiting     
+		   0.003859331,  // Present Unsupportive 50 to 96 P Limited Very Limiting    
+		   0.01234258,   // Present Unsupportive 50 to 96 P Limited Somewhat Limitin 
+		   0.0410963,    // Present Unsupportive 50 to 96 P Limited Not Limiting     
+		   0.2046008,    // Present Unsupportive >= 96    N Limited Very Limiting    
+		   0.4704006,    // Present Unsupportive >= 96    N Limited Somewhat Limitin 
+		   0.5270475,    // Present Unsupportive >= 96    N Limited Not Limiting     
+		   4e-5,         // Present Unsupportive >= 96    P Limited Very Limiting    
+		   4e-5,         // Present Unsupportive >= 96    P Limited Somewhat Limitin 
+		   4e-5,         // Present Unsupportive >= 96    P Limited Not Limiting     
+		   0.01161416,   // Absent  Supportive   0 to 12  N Limited Very Limiting    
+		   0.05916,      // Absent  Supportive   0 to 12  N Limited Somewhat Limitin 
+		   0.2270032,    // Absent  Supportive   0 to 12  N Limited Not Limiting     
+		   1.237048,     // Absent  Supportive   0 to 12  P Limited Very Limiting    
+		   4.885884,     // Absent  Supportive   0 to 12  P Limited Somewhat Limitin 
+		   14.70833,     // Absent  Supportive   0 to 12  P Limited Not Limiting     
+		   2.538363,     // Absent  Supportive   12 to 24 N Limited Very Limiting    
+		   5.918207,     // Absent  Supportive   12 to 24 N Limited Somewhat Limitin 
+		   14.45777,     // Absent  Supportive   12 to 24 N Limited Not Limiting     
+		   3.972663,     // Absent  Supportive   12 to 24 P Limited Very Limiting    
+		   13.54326,     // Absent  Supportive   12 to 24 P Limited Somewhat Limitin 
+		   38.72815,     // Absent  Supportive   12 to 24 P Limited Not Limiting     
+		   6.07657,      // Absent  Supportive   24 to 50 N Limited Very Limiting    
+		   14.73159,     // Absent  Supportive   24 to 50 N Limited Somewhat Limitin 
+		   30.97208,     // Absent  Supportive   24 to 50 N Limited Not Limiting     
+		   2.650306,     // Absent  Supportive   24 to 50 P Limited Very Limiting    
+		   5.299819,     // Absent  Supportive   24 to 50 P Limited Somewhat Limitin 
+		   10.20285,     // Absent  Supportive   24 to 50 P Limited Not Limiting     
+		   4.62818,      // Absent  Supportive   50 to 96 N Limited Very Limiting    
+		   10.76143,     // Absent  Supportive   50 to 96 N Limited Somewhat Limitin 
+		   16.15475,     // Absent  Supportive   50 to 96 N Limited Not Limiting     
+		   0.02002298,   // Absent  Supportive   50 to 96 P Limited Very Limiting    
+		   0.06412923,   // Absent  Supportive   50 to 96 P Limited Somewhat Limitin 
+		   0.2136252,    // Absent  Supportive   50 to 96 P Limited Not Limiting     
+		   1.063714,     // Absent  Supportive   >= 96    N Limited Very Limiting    
+		   2.445657,     // Absent  Supportive   >= 96    N Limited Somewhat Limitin 
+		   2.740134,     // Absent  Supportive   >= 96    N Limited Not Limiting     
+		   4e-5,         // Absent  Supportive   >= 96    P Limited Very Limiting    
+		   4e-5,         // Absent  Supportive   >= 96    P Limited Somewhat Limitin 
+		   4e-5,         // Absent  Supportive   >= 96    P Limited Not Limiting     
+		   0.01067353,   // Absent  Neutral      0 to 12  N Limited Very Limiting    
+		   0.05436529,   // Absent  Neutral      0 to 12  N Limited Somewhat Limitin 
+		   0.2086031,    // Absent  Neutral      0 to 12  N Limited Not Limiting     
+		   1.136773,     // Absent  Neutral      0 to 12  P Limited Very Limiting    
+		   4.489835,     // Absent  Neutral      0 to 12  P Limited Somewhat Limitin 
+		   13.51608,     // Absent  Neutral      0 to 12  P Limited Not Limiting     
+		   2.332605,     // Absent  Neutral      12 to 24 N Limited Very Limiting    
+		   5.438478,     // Absent  Neutral      12 to 24 N Limited Somewhat Limitin 
+		   13.28582,     // Absent  Neutral      12 to 24 N Limited Not Limiting     
+		   3.650645,     // Absent  Neutral      12 to 24 P Limited Very Limiting    
+		   12.44545,     // Absent  Neutral      12 to 24 P Limited Somewhat Limitin 
+		   35.58884,     // Absent  Neutral      12 to 24 P Limited Not Limiting     
+		   5.584006,     // Absent  Neutral      24 to 50 N Limited Very Limiting    
+		   13.53746,     // Absent  Neutral      24 to 50 N Limited Somewhat Limitin 
+		   28.46148,     // Absent  Neutral      24 to 50 N Limited Not Limiting     
+		   2.435473,     // Absent  Neutral      24 to 50 P Limited Very Limiting    
+		   4.870217,     // Absent  Neutral      24 to 50 P Limited Somewhat Limitin 
+		   9.375809,     // Absent  Neutral      24 to 50 P Limited Not Limiting     
+		   4.253007,     // Absent  Neutral      50 to 96 N Limited Very Limiting    
+		   9.889109,     // Absent  Neutral      50 to 96 N Limited Somewhat Limitin 
+		   14.84525,     // Absent  Neutral      50 to 96 N Limited Not Limiting     
+		   0.01840073,   // Absent  Neutral      50 to 96 P Limited Very Limiting    
+		   0.0589317,    // Absent  Neutral      50 to 96 P Limited Somewhat Limitin 
+		   0.1963095,    // Absent  Neutral      50 to 96 P Limited Not Limiting     
+		   0.9774901,    // Absent  Neutral      >= 96    N Limited Very Limiting    
+		   2.247413,     // Absent  Neutral      >= 96    N Limited Somewhat Limitin 
+		   2.518021,     // Absent  Neutral      >= 96    N Limited Not Limiting     
+		   4e-5,         // Absent  Neutral      >= 96    P Limited Very Limiting    
+		   4e-5,         // Absent  Neutral      >= 96    P Limited Somewhat Limitin 
+		   4e-5,         // Absent  Neutral      >= 96    P Limited Not Limiting     
+		   0.008937694,  // Absent  Unsupportive 0 to 12  N Limited Very Limiting    
+		   0.04551713,   // Absent  Unsupportive 0 to 12  N Limited Somewhat Limitin 
+		   0.1746476,    // Absent  Unsupportive 0 to 12  N Limited Not Limiting     
+		   0.9517269,    // Absent  Unsupportive 0 to 12  P Limited Very Limiting    
+		   3.758965,     // Absent  Unsupportive 0 to 12  P Limited Somewhat Limitin 
+		   11.31588,     // Absent  Unsupportive 0 to 12  P Limited Not Limiting     
+		   1.952902,     // Absent  Unsupportive 12 to 24 N Limited Very Limiting    
+		   4.553184,     // Absent  Unsupportive 12 to 24 N Limited Somewhat Limitin 
+		   11.12311,     // Absent  Unsupportive 12 to 24 N Limited Not Limiting     
+		   3.056382,     // Absent  Unsupportive 12 to 24 P Limited Very Limiting    
+		   10.41954,     // Absent  Unsupportive 12 to 24 P Limited Somewhat Limitin 
+		   29.79556,     // Absent  Unsupportive 12 to 24 P Limited Not Limiting     
+		   4.675022,     // Absent  Unsupportive 24 to 50 N Limited Very Limiting    
+		   11.33378,     // Absent  Unsupportive 24 to 50 N Limited Somewhat Limitin 
+		   23.82844,     // Absent  Unsupportive 24 to 50 N Limited Not Limiting     
+		   2.03902,      // Absent  Unsupportive 24 to 50 P Limited Very Limiting    
+		   4.077427,     // Absent  Unsupportive 24 to 50 P Limited Somewhat Limitin 
+		   7.849582,     // Absent  Unsupportive 24 to 50 P Limited Not Limiting     
+		   3.560692,     // Absent  Unsupportive 50 to 96 N Limited Very Limiting    
+		   8.279325,     // Absent  Unsupportive 50 to 96 N Limited Somewhat Limitin 
+		   12.42869,     // Absent  Unsupportive 50 to 96 N Limited Not Limiting     
+		   0.01540703,   // Absent  Unsupportive 50 to 96 P Limited Very Limiting    
+		   0.04934022,   // Absent  Unsupportive 50 to 96 P Limited Somewhat Limitin 
+		   0.1643552,    // Absent  Unsupportive 50 to 96 P Limited Not Limiting     
+		   0.8183724,    // Absent  Unsupportive >= 96    N Limited Very Limiting    
+		   1.881573,     // Absent  Unsupportive >= 96    N Limited Somewhat Limitin 
+		   2.10813,      // Absent  Unsupportive >= 96    N Limited Not Limiting     
+		   4e-5,         // Absent  Unsupportive >= 96    P Limited Very Limiting    
+		   4e-5,         // Absent  Unsupportive >= 96    P Limited Somewhat Limitin 
+		   4e-5);        // Absent  Unsupportive >= 96    P Limited Not Limiting     ;
+	title = "Peak Summer Microcystin";
+	whenchanged = 1604428083;
+	belief = (0.9368662, 0.04050909, 0.01068775, 0.01193694);
+	visual V1 {
+		center = (690, 762);
+		font = font {shape= "Arial"; size= 12;};
+		height = 28;
+		link 3 {
+			path = ((489, 476), (528, 498), (654, 702));
+			};
+		link 4 {
+			path = ((622, 321), (564, 342), (564, 546), (655, 702));
+			};
+		link 5 {
+			path = ((930, 316), (846, 360), (713, 702));
+			};
+		};
+	};
+
+node C {
+	discrete = TRUE;
+	states = (Exceeds, Meets);
+	kind = NATURE;
+	chance = DETERMIN;
+	parents = (MC);
+	functable = 
+		                    // MC      
+		  (Meets,           // 0 to 1  
+		   Meets,           // 1 to 8  
+		   Exceeds,         // 8 to 50 
+		   Exceeds);        // >= 50   ;
+	numcases = 10;
+	equation = "C (MC) = MC>=8 ? Exceeds : Meets";
+	title = "Exceeds Criterion";
+	whenchanged = 1603746860;
+	belief = (0.02262469, 0.9773753);
+	visual V1 {
+		center = (954, 786);
+		font = font {shape= "Arial"; size= 12;};
+		height = 19;
+		};
+	};
+
+node ChlA {
+	discrete = FALSE;
+	levels = (0, 1, 2.6, 10, 20, 56, INFINITY);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (Lake_TP, NP, F);
+	probs = 
+		// 0 to 1       1 to 2.6     2.6 to 10    10 to 20     20 to 56     >= 56         // Lake_TP  NP        F                
+		  (2.572376e-4, 2.572376e-4, 0.9987138,   2.572376e-4, 2.572376e-4, 2.572376e-4,  // 0 to 12  N Limited Very Limiting    
+		   5.034091e-5, 5.034091e-5, 0.9997483,   5.034091e-5, 5.034091e-5, 5.034091e-5,  // 0 to 12  N Limited Somewhat Limitin 
+		   1.311201e-5, 1.311201e-5, 0.9999344,   1.311201e-5, 1.311201e-5, 1.311201e-5,  // 0 to 12  N Limited Not Limiting     
+		   2.40571e-6,  0.05808978,  0.9418944,   4.909058e-6, 6.145754e-6, 2.40571e-6,   // 0 to 12  P Limited Very Limiting    
+		   6.090802e-7, 0.1144269,   0.8855669,   2.180763e-6, 2.827433e-6, 6.090802e-7,  // 0 to 12  P Limited Somewhat Limitin 
+		   2.023259e-7, 0.07850005,  0.820338,    0.08092984,  0.02023174,  2.023259e-7,  // 0 to 12  P Limited Not Limiting     
+		   1.172368e-6, 1.383258e-6, 0.6189,      0.3810948,   1.610789e-6, 1.172368e-6,  // 12 to 24 N Limited Very Limiting    
+		   5.028365e-7, 1.710664e-6, 0.9004596,   0.04925619,  0.05028149,  5.028365e-7,  // 12 to 24 N Limited Somewhat Limitin 
+		   2.058322e-7, 0.0205829,   0.8812371,   0.0981783,   1.22296e-6,  2.058322e-7,  // 12 to 24 N Limited Not Limiting     
+		   7.490929e-7, 0.1000944,   0.3163949,   9.328576e-6, 0.5834965,   4.18622e-6,   // 12 to 24 P Limited Very Limiting    
+		   2.197311e-7, 1.65605e-6,  0.8641295,   0.135863,    4.119962e-6, 1.430022e-6,  // 12 to 24 P Limited Somewhat Limitin 
+		   7.684e-8,    0.04352023,  0.6028071,   0.236796,    0.1091933,   0.007683302,  // 12 to 24 P Limited Not Limiting     
+		   4.897312e-7, 6.086836e-7, 0.7692605,   2.250926e-5, 8.646144e-6, 0.2307073,    // 24 to 50 N Limited Very Limiting    
+		   2.020063e-7, 3.936168e-7, 0.004248253, 0.2389212,   0.6297866,   0.1270434,    // 24 to 50 N Limited Somewhat Limitin 
+		   9.608233e-8, 0.009608215, 0.2890341,   0.4724576,   0.2288996,   4.975091e-7,  // 24 to 50 N Limited Not Limiting     
+		   1.122859e-6, 1.122859e-6, 1.040431e-5, 0.06448853,  0.4337441,   0.5017547,    // 24 to 50 P Limited Very Limiting    
+		   5.615084e-7, 5.615084e-7, 0.3062612,   0.4667874,   0.02865679,  0.1982935,    // 24 to 50 P Limited Somewhat Limitin 
+		   2.916713e-7, 2.916713e-7, 0.04508302,  0.4991257,   0.4557895,   1.152e-6,     // 24 to 50 P Limited Not Limiting     
+		   6.429943e-7, 6.429943e-7, 1.940911e-6, 0.1650395,   0.8349554,   1.889526e-6,  // 50 to 96 N Limited Very Limiting    
+		   2.765321e-7, 2.765321e-7, 0.363886,    0.08942682,  0.02203309,  0.5246535,    // 50 to 96 N Limited Somewhat Limitin 
+		   1.842103e-7, 1.842103e-7, 0.07075685,  0.169463,    0.7592753,   5.045466e-4,  // 50 to 96 N Limited Not Limiting     
+		   1.489622e-4, 1.489622e-4, 0.9992552,   1.489622e-4, 1.489622e-4, 1.489622e-4,  // 50 to 96 P Limited Very Limiting    
+		   4.643733e-5, 4.643733e-5, 0.9997678,   4.643733e-5, 4.643733e-5, 4.643733e-5,  // 50 to 96 P Limited Somewhat Limitin 
+		   1.39333e-5,  1.39333e-5,  0.9999303,   1.39333e-5,  1.39333e-5,  1.39333e-5,   // 50 to 96 P Limited Not Limiting     
+		   2.79774e-6,  2.79774e-6,  3.308126e-6, 1.383791e-5, 0.3123608,   0.6876165,    // >= 96    N Limited Very Limiting    
+		   1.216819e-6, 1.216819e-6, 1.549794e-6, 0.3207058,   0.1177267,   0.5615636,    // >= 96    N Limited Somewhat Limitin 
+		   1.086045e-6, 1.086045e-6, 0.2172096,   0.03957263,  0.5339062,   0.2093093,    // >= 96    N Limited Not Limiting     
+		   0.1666667,   0.1666667,   0.1666667,   0.1666667,   0.1666667,   0.1666667,    // >= 96    P Limited Very Limiting    
+		   0.1666667,   0.1666667,   0.1666667,   0.1666667,   0.1666667,   0.1666667,    // >= 96    P Limited Somewhat Limitin 
+		   0.1666667,   0.1666667,   0.1666667,   0.1666667,   0.1666667,   0.1666667);   // >= 96    P Limited Not Limiting     ;
+	numcases = 
+		                 // Lake_TP  NP        F                
+		  (0.03887457,   // 0 to 12  N Limited Very Limiting    
+		   0.1986456,    // 0 to 12  N Limited Somewhat Limitin 
+		   0.7626598,    // 0 to 12  N Limited Not Limiting     
+		   4.156777,     // 0 to 12  P Limited Very Limiting    
+		   16.4182,      // 0 to 12  P Limited Somewhat Limitin 
+		   49.42521,     // 0 to 12  P Limited Not Limiting     
+		   8.529748,     // 12 to 24 N Limited Very Limiting    
+		   19.88718,     // 12 to 24 N Limited Somewhat Limitin 
+		   48.58326,     // 12 to 24 N Limited Not Limiting     
+		   13.34948,     // 12 to 24 P Limited Very Limiting    
+		   45.51017,     // 12 to 24 P Limited Somewhat Limitin 
+		   130.1405,     // 12 to 24 P Limited Not Limiting     
+		   20.41936,     // 24 to 50 N Limited Very Limiting    
+		   49.50341,     // 24 to 50 N Limited Somewhat Limitin 
+		   104.0774,     // 24 to 50 N Limited Not Limiting     
+		   8.90584,      // 24 to 50 P Limited Very Limiting    
+		   17.80917,     // 24 to 50 P Limited Somewhat Limitin 
+		   34.28517,     // 24 to 50 P Limited Not Limiting     
+		   15.55224,     // 50 to 96 N Limited Very Limiting    
+		   36.16217,     // 50 to 96 N Limited Somewhat Limitin 
+		   54.28577,     // 50 to 96 N Limited Not Limiting     
+		   0.06713112,   // 50 to 96 P Limited Very Limiting    
+		   0.215344,     // 50 to 96 P Limited Somewhat Limitin 
+		   0.7177049,    // 50 to 96 P Limited Not Limiting     
+		   3.574314,     // >= 96    N Limited Very Limiting    
+		   8.218145,     // >= 96    N Limited Somewhat Limitin 
+		   9.207721,     // >= 96    N Limited Not Limiting     
+		   6e-5,         // >= 96    P Limited Very Limiting    
+		   6e-5,         // >= 96    P Limited Somewhat Limitin 
+		   6e-5);        // >= 96    P Limited Not Limiting     ;
+	title = "Peak Summer Chl-a (Lakewide)";
+	whenchanged = 1604443231;
+	belief = (7.05613e-7, 0.02695017, 0.4501201, 0.1711102, 0.2547093, 0.09710963);
+	visual V1 {
+		center = (690, 426);
+		height = 27;
+		link 3 {
+			path = ((922, 316), (793, 378));
+			};
+		};
+	};
+
+node G {
+	discrete = TRUE;
+	numstates = 1;
+	kind = NATURE;
+	parents = ();
+	title = "Non-adjustable\nEnvironmental Factors";
+	whenchanged = 1582150199;
+	belief = (1);
+	visual V1 {
+		center = (1662, 618);
+		height = 3;
+		};
+	};
+
+node H {
+	discrete = TRUE;
+	numstates = 1;
+	kind = NATURE;
+	parents = ();
+	title = "Geomorphology";
+	whenchanged = 1582150165;
+	belief = (1);
+	visual V1 {
+		center = (1656, 684);
+		height = 4;
+		};
+	};
+
+node J {
+	discrete = TRUE;
+	numstates = 1;
+	kind = NATURE;
+	parents = ();
+	title = "Nutrients";
+	whenchanged = 1582150183;
+	belief = (1);
+	visual V1 {
+		center = (1656, 750);
+		height = 5;
+		};
+	};
+
+node TITLE1 {
+	discrete = FALSE;
+	kind = CONSTANT;
+	parents = ();
+	title = "Cyanotoxin (Microcystin) Model - Alpha v0.1b - Aug. 10, 2020";
+	whenchanged = 1597095049;
+	visual V1 {
+		center = (282, 36);
+		font = font {shape= "Arial"; size= 14;};
+		height = 20;
+		};
+	};
+
+node NOTE1 {
+	discrete = FALSE;
+	kind = CONSTANT;
+	parents = ();
+	title = "Model purpose:\n\n\
+		What are the determinative factors for cyanotoxin (microcystin)\n\
+		levels exceeding recreational guidelines at King County beaches?\n\n\
+		Do potential mitigation strategies (e.g., combined sewer \n\
+		overflow control, stormwater management) substantially \n\
+		influence those factors?";
+	whenchanged = 1588872468;
+	visual V1 {
+		center = (228, 120);
+		height = 21;
+		};
+	};
+
+node NOTE2 {
+	discrete = FALSE;
+	kind = CONSTANT;
+	parents = ();
+	title = "For each lake we will provide input for:\n\
+		Osgood Index\n\
+		Mean Summer Temperature\n\
+		Organic Matter\n\
+		Estimated Internal Load Fraction\n\
+		Macrophyte Coverage\n\
+		General Wind Conditions";
+	whenchanged = 1589313590;
+	visual V1 {
+		center = (1686, 390);
+		height = 6;
+		};
+	};
+NodeSet Cyanos {Nodes = (MC, ChlA);};
+NodeSet NonAdjustableEnviroFac {Nodes = (Wind, A, Temp, SummerFlush, Zoop, UV254, E, F, TPG, G, FloatMacBeach, FloatMac, SubMac);};
+NodeSet Nutrients {Nodes = (NP, J, NP, NP, NP, NP, Lake_TP, PreTreatTP, Int_Load_Frac, Load_Reduction, K);};
+NodeSet Geomorphology {Nodes = (H, Osgood);};
+NodeSet target {Nodes = (C);};
+ElimOrder = (G, H, J, C, Wind, FloatMacBeach, UV254, FloatMac, ChlA, SubMac, E, Temp, Osgood, Zoop, SummerFlush, A, TPG, NP, F, MC, PreTreatTP, Int_Load_Frac, Load_Reduction, K, Lake_TP);
+};
