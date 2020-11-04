@@ -1,11 +1,11 @@
 // ~->[DNET-1]->~
 
-// File created by someone at KCITKingCounty using Netica 6.05 on Nov 04, 2020 at 23:16:06 UTC.
+// File created by someone at KCITKingCounty using Netica 6.05 on Nov 04, 2020 at 23:19:22 UTC.
 
 bnet cyano_20201016_chla_alpha_post {
 AutoCompile = TRUE;
 autoupdate = TRUE;
-whenchanged = 1604531765;
+whenchanged = 1604531948;
 
 visual V1 {
 	defdispform = BELIEFBARS;
@@ -71,7 +71,7 @@ node FloatMacBeach {
 	numcases = 130;
 	title = "Floating Macrophyte Coverage at Beach";
 	whenchanged = 1603742029;
-	belief = (0.31995, 0.3178119, 0.3622382);
+	belief = (0.31995, 0.3178119, 0.3622381);
 	visual V1 {
 		center = (1356, 576);
 		height = 17;
@@ -105,17 +105,29 @@ node A {
 		};
 	};
 
+node woo {
+	discrete = TRUE;
+	states = (mouse, not_mouse);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	title = "cat";
+	whenchanged = 1604531948;
+	belief = (0.5, 0.5);
+	visual V1 {
+		center = (204, 750);
+		height = 29;
+		};
+	};
+
 node TPG {
 	discrete = TRUE;
 	states = (Present, Absent);
 	kind = NATURE;
 	chance = CHANCE;
-	parents = ();
-	probs = 
-		// Present      Absent       
-		  (0.5,         0.5);
+	parents = (woo);
 	title = "Toxin-Producing Genotype";
-	whenchanged = 1604531765;
+	whenchanged = 1604531814;
 	belief = (0.5, 0.5);
 	visual V1 {
 		center = (414, 714);
@@ -483,7 +495,7 @@ node SubMac {
 	numcases = 700;
 	title = "Submerged Macrophyte Coverage";
 	whenchanged = 1604443465;
-	belief = (0.2929121, 0.291261, 0.2608322, 0.1549948);
+	belief = (0.2929121, 0.2912609, 0.2608322, 0.1549948);
 	visual V1 {
 		center = (1188, 408);
 		height = 12;
@@ -1225,7 +1237,7 @@ node ChlA {
 		   6e-5);        // >= 96    P Limited Not Limiting     ;
 	title = "Peak Summer Chl-a (Lakewide)";
 	whenchanged = 1604443231;
-	belief = (7.05613e-7, 0.02695017, 0.4501201, 0.1711102, 0.2547093, 0.09710963);
+	belief = (7.056129e-7, 0.02695016, 0.4501201, 0.1711102, 0.2547093, 0.09710963);
 	visual V1 {
 		center = (690, 426);
 		height = 27;
@@ -1329,5 +1341,5 @@ NodeSet NonAdjustableEnviroFac {Nodes = (Wind, A, Temp, SummerFlush, Zoop, UV254
 NodeSet Nutrients {Nodes = (NP, J, NP, NP, NP, NP, Lake_TP, PreTreatTP, Int_Load_Frac, Load_Reduction, K);};
 NodeSet Geomorphology {Nodes = (H, Osgood);};
 NodeSet target {Nodes = (C);};
-ElimOrder = (G, H, J, C, Wind, FloatMacBeach, UV254, FloatMac, ChlA, SubMac, E, Temp, Osgood, Zoop, SummerFlush, A, TPG, NP, F, MC, PreTreatTP, Int_Load_Frac, Load_Reduction, K, Lake_TP);
+ElimOrder = (G, H, J, woo, C, Wind, FloatMacBeach, UV254, FloatMac, ChlA, SubMac, E, Temp, Osgood, Zoop, SummerFlush, A, TPG, NP, F, MC, PreTreatTP, Int_Load_Frac, Load_Reduction, K, Lake_TP);
 };
