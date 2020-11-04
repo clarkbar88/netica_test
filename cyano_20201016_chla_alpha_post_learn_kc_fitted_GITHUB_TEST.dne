@@ -1,11 +1,11 @@
 // ~->[DNET-1]->~
 
-// File created by someone at KCITKingCounty using Netica 6.05 on Nov 04, 2020 at 23:14:36 UTC.
+// File created by someone at KCITKingCounty using Netica 6.05 on Nov 04, 2020 at 23:16:06 UTC.
 
 bnet cyano_20201016_chla_alpha_post {
 AutoCompile = TRUE;
 autoupdate = TRUE;
-whenchanged = 1604443570;
+whenchanged = 1604531765;
 
 visual V1 {
 	defdispform = BELIEFBARS;
@@ -71,7 +71,7 @@ node FloatMacBeach {
 	numcases = 130;
 	title = "Floating Macrophyte Coverage at Beach";
 	whenchanged = 1603742029;
-	belief = (0.31995, 0.3178119, 0.3622381);
+	belief = (0.31995, 0.3178119, 0.3622382);
 	visual V1 {
 		center = (1356, 576);
 		height = 17;
@@ -113,10 +113,10 @@ node TPG {
 	parents = ();
 	probs = 
 		// Present      Absent       
-		  (0.2,         0.8);
+		  (0.5,         0.5);
 	title = "Toxin-Producing Genotype";
-	whenchanged = 1603741339;
-	belief = (0.2, 0.8);
+	whenchanged = 1604531765;
+	belief = (0.5, 0.5);
 	visual V1 {
 		center = (414, 714);
 		height = 26;
@@ -483,7 +483,7 @@ node SubMac {
 	numcases = 700;
 	title = "Submerged Macrophyte Coverage";
 	whenchanged = 1604443465;
-	belief = (0.2929121, 0.2912609, 0.2608322, 0.1549948);
+	belief = (0.2929121, 0.291261, 0.2608322, 0.1549948);
 	visual V1 {
 		center = (1188, 408);
 		height = 12;
@@ -1112,7 +1112,7 @@ node MC {
 		   4e-5);        // Absent  Unsupportive >= 96    P Limited Not Limiting     ;
 	title = "Peak Summer Microcystin";
 	whenchanged = 1604428083;
-	belief = (0.9368662, 0.04050909, 0.01068775, 0.01193694);
+	belief = (0.9364774, 0.04090118, 0.01068773, 0.01193373);
 	visual V1 {
 		center = (690, 762);
 		font = font {shape= "Arial"; size= 12;};
@@ -1145,7 +1145,7 @@ node C {
 	equation = "C (MC) = MC>=8 ? Exceeds : Meets";
 	title = "Exceeds Criterion";
 	whenchanged = 1603746860;
-	belief = (0.02262469, 0.9773753);
+	belief = (0.02262146, 0.9773785);
 	visual V1 {
 		center = (954, 786);
 		font = font {shape= "Arial"; size= 12;};
